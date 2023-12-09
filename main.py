@@ -56,7 +56,7 @@ if selected == "HOMEPAGE":
         access_token = r.read()
     client_id = '0X7ILODH7P-100'
     newtoken = f"{client_id}:{access_token}"
-    fyers = fyersModel.FyersModel(client_id=client_id, token=access_token, log_path=os.getcwd())
+    fyers = fyersModel.FyersModel(0X7ILODH7P-100, token=access_token, log_path=os.getcwd())
     data = {"symbols": "NSE:NIFTY50-INDEX,NSE:NIFTYBANK-INDEX"}
     response = fyers.quotes(data=data)
     t = response['d'][0]
