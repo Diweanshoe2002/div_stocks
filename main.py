@@ -254,7 +254,7 @@ if selected == "HOMEPAGE":
 if selected == "STOCK":
     tab1, tab8 = st.tabs(["GENERAL INFO", "FUNDAMENTALS"])
     with tab1:
-        df = pd.read_csv('C:\\Users\\hp\\Downloads\\STOCKDATA.csv')
+        df = pd.read_csv('STOCKDATA.csv')
         dataa = st.selectbox('Which stock do you want to analyze?', df['Security Id'])
         df1 = pd.DataFrame(df)
         if len(dataa) > 0:
