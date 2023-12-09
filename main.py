@@ -1,5 +1,5 @@
 import numpy as np
-from streamlit_lottie import st_lottie
+#from streamlit_lottie import st_lottie
 from streamlit_option_menu import option_menu
 import streamlit as st
 from yahooquery import Ticker
@@ -193,15 +193,15 @@ if selected == "HOMEPAGE":
     actvdf.drop(actvdf.iloc[:, 1:5], inplace=True, axis=1)
     st.dataframe(actvdf)
 
-    col3, col4 = st.columns(2)
-    with col3:
-        def load_lottieurl_1(url: str):
-            r = requests.get(url)
-            if r.status_code != 200:
-                return None
-            return r.json()
-        url = load_lottieurl_1("https://assets2.lottiefiles.com/private_files/lf30_1l8zkdv6.json")
-        st_lottie(url, height=100)
+    #col3, col4 = st.columns(2)
+    #with col3:
+    #    def load_lottieurl_1(url: str):
+    #        r = requests.get(url)
+    #        if r.status_code != 200:
+    #            return None
+    #        return r.json()
+    #    url = load_lottieurl_1("https://assets2.lottiefiles.com/private_files/lf30_1l8zkdv6.json")
+    #    st_lottie(url, height=100)
 
         st.header(" Top gainers today!")
         ddff = pd.read_csv(f"C:\\Users\\hp\\AppData\\Roaming\\JetBrains\\PyCharmCE2023.2\\scratches\\2023-11-21.csv")
@@ -218,14 +218,14 @@ if selected == "HOMEPAGE":
 
 
 
-    with col4:
-        def load_lottieurl_2(url: str):
-            r = requests.get(url)
-            if r.status_code != 200:
-                return None
-            return r.json()
-        url = load_lottieurl_2("https://assets8.lottiefiles.com/private_files/lf30_290nyta6.json")
-        st_lottie(url, height=100)
+    #with col4:
+    #    def load_lottieurl_2(url: str):
+    #        r = requests.get(url)
+    #        if r.status_code != 200:
+    #            return None
+    #        return r.json()
+    #    url = load_lottieurl_2("https://assets8.lottiefiles.com/private_files/lf30_290nyta6.json")
+    #    st_lottie(url, height=100)
         st.header("Top losers today!")
         lindexnam = ['NIFTY50', "NIFTYNEXT50", "NIFTY100", "NIFTY200", "NIFTY500", "NIFTYSMALLCAP50", "NIFTYSMALLCAP100", "NIFTYSMALLCAP250", "NIFTYMIDCAP50", "NIFTYMIDCAP100", "NIFTYMIDCAP50"]
         lopt = st.selectbox("Select Index", lindexnam)
