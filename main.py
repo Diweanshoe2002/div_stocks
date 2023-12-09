@@ -193,8 +193,8 @@ if selected == "HOMEPAGE":
     actvdf.drop(actvdf.iloc[:, 1:5], inplace=True, axis=1)
     st.dataframe(actvdf)
 
-    #col3, col4 = st.columns(2)
-    #with col3:
+    col3, col4 = st.columns(2)
+    with col3:
     #    def load_lottieurl_1(url: str):
     #        r = requests.get(url)
     #        if r.status_code != 200:
@@ -218,7 +218,7 @@ if selected == "HOMEPAGE":
 
 
 
-    #with col4:
+    with col4:
     #    def load_lottieurl_2(url: str):
     #        r = requests.get(url)
     #        if r.status_code != 200:
