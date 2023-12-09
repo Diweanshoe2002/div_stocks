@@ -10,4 +10,3 @@ fyers-apiv2
 mplfinance
 json
 datetime
-requests
