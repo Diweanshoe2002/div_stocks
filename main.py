@@ -2,7 +2,7 @@ import numpy as np
 from streamlit_lottie import st_lottie
 from streamlit_option_menu import option_menu
 import streamlit as st
-from yahooquery import Ticker
+from yfinance import Ticker
 from nsedt import equity as eq
 import pandas as pd
 import pandas_ta as ta
@@ -52,82 +52,75 @@ def nse_headers_session(url):
 
 if selected == "HOMEPAGE":
     col1, col2, col3 = st.columns(3)
-    with open("access_token", 'r') as r:
-        access_token = r.read()
-    client_id = '0X7ILODH7P-100'
-    newtoken = f"{client_id}:{access_token}"
-    fyers = fyersModel.FyersModel(client_id=client_id, token=access_token,log_path=os.getcwd())
-    data = {"symbols": "NSE:NIFTY50-INDEX,NSE:NIFTYBANK-INDEX"}
-    response = fyers.quotes(data=data)
-    t = response['d'][0]
-    t1= response['d'][1]
-    col1.metric("NIFTY-50", t['v']['lp'], t['v']['chp'])
-
-    #g2 = "^NSEI"
-    #info = Ticker(g2).history(period='1d', interval='5m')
-    #info1 = pd.DataFrame(info)
-    #info1 = info1.reset_index(['symbol', 'date'])
-    #fig = go.Figure(go.Scatter(
-    #    x=info1['date'],
-    #    y=info1["close"],
-    #    mode='lines',
-    #    line=dict(width=2, color='#0066CC'),
-    #    showlegend=False
-    #))
-    #fig.update_layout(width=200, height=50, paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', xaxis={'visible': False},
-    #        yaxis={'visible': False},margin=dict(t=0, b=0, l=0, r=0))
-    #config = {'displayModeBar': False}
-    #with col1:
-        #st.plotly_chart(fig, config=config)
+    col1.metric("NIFTY-50")
+    g2 = "^NSEI"
+    info = Ticker(g2).history(period='1d', interval='5m',actions=False)
+    info1 = pd.DataFrame(info)
+    info1 = info1.reset_index(['Datetime'])
+    info1.columns = ['date', 'open', 'high', 'low', 'close', 'volume']
+    info1['date'] = pd.to_datetime(info1['date'], unit='s')
+    fig = go.Figure(go.Scatter(
+        x=info1['date'],
+        y=info1["close"],
+        mode='lines',
+        line=dict(width=2, color='#0066CC'),
+        showlegend=False
+    ))
+    fig.update_layout(width=200, height=50, paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', xaxis={'visible': False},
+            yaxis={'visible': False},margin=dict(t=0, b=0, l=0, r=0))
+    config = {'displayModeBar': False}
+    with col1:
+        st.plotly_chart(fig, config=config)
 
 
-    col2.metric("BANKNIFTY", t1['v']['lp'], t1['v']['chp'])
-    #g3 = "^NSEBANK"
-    #info3 = Ticker(g3).history(period='1d', interval='5m')
-    #info13 = pd.DataFrame(info3)
-    #info13 = info13.reset_index(['symbol', 'date'])
-    #fig2 = go.Figure(go.Scatter(
-    #    x=info13['date'],
-    #    y=info13["close"],
-    #    mode='lines',
-    #    line=dict(width=2, color='#0066CC'),
-    #    showlegend=False
-    #))
-    #fig2.update_layout(
-    #    width=200,
-    #    height=50,
-    #    paper_bgcolor='rgba(0,0,0,0)',
-    #    plot_bgcolor='rgba(0,0,0,0)',
-    #    xaxis={'visible': False },
-    #    yaxis={'visible': False },
-    #    margin=dict(t=0, b=0, l=0, r=0)
-    #)
-    #config = {'displayModeBar': False}
-    #with col2:
-    #    st.plotly_chart(fig2, config=config)
+    col2.metric("BANKNIFTY")
+    g3 = "^NSEBANK"
+    info3 = Ticker(g3).history(period='1d', interval='5m',actions=False)
+    info13 = pd.DataFrame(info3)
+    info13 = info13.reset_index(['Datetime'])
+    info13.columns = ['date', 'open', 'high', 'low', 'close', 'volume']
+    info13['date'] = pd.to_datetime(info1['date'], unit='s')
+    fig2 = go.Figure(go.Scatter(
+        x=info13['date'],
+        y=info13["close"],
+        mode='lines',
+        line=dict(width=2, color='#0066CC'),
+        showlegend=False
+    ))
+    fig2.update_layout(
+        width=200,
+        height=50,
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)',
+        xaxis={'visible': False },
+        yaxis={'visible': False },
+        margin=dict(t=0, b=0, l=0, r=0)
+    )
+    config = {'displayModeBar': False}
+    with col2:
+        st.plotly_chart(fig2, config=config)
 
-    daatta = pd.read_csv("C:\\Users\\hp\\Downloads\\Book.csv")
-    X = pd.DataFrame(daatta)
-    X["PERCHANGE ABS"] = X["PERCHANGE"].abs()
     ty=(nse_get_index_quote("INDIA VIX"))
 
-    col3.metric("INDIA VIX", ty["last"], ty["percChange"])
+    col3.metric("INDIA VIX")
     g4 = "^INDIAVIX"
-    #info4 = Ticker(g4).history(period='1d', interval='5m')
-    #info14 = pd.DataFrame(info4)
-    #info14 = info14.reset_index(['symbol', 'date'])
-    #fig3 = go.Figure(go.Scatter(
-    #    x=info14['date'],
-    #    y=info14["close"],
-    #    mode='lines',
-    #    line=dict(width=2, color='#0066CC'),
-    #    showlegend=False
-    #))
-    #fig3.update_layout(width=200, height=50, paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', xaxis={'visible': False},
-    #yaxis={'visible': False}, margin=dict(t=0, b=0, l=0, r=0))
-    #config = {'displayModeBar': False}
-    #with col3:
-    #    st.plotly_chart(fig3, config=config)
+    info4 = Ticker(g4).history(period='1d', interval='5m',actions=False)
+    info14 = pd.DataFrame(info4)
+    info14 = info14.reset_index(['Datetime'])
+    info14.columns = ['date', 'open', 'high', 'low', 'close', 'volume']
+    info14['date'] = pd.to_datetime(info1['date'], unit='s')
+    fig3 = go.Figure(go.Scatter(
+        x=info14['date'],
+        y=info14["close"],
+        mode='lines',
+        line=dict(width=2, color='#0066CC'),
+        showlegend=False
+     ))
+    fig3.update_layout(width=200, height=50, paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', xaxis={'visible': False},
+    yaxis={'visible': False}, margin=dict(t=0, b=0, l=0, r=0))
+    config = {'displayModeBar': False}
+    with col3:
+        st.plotly_chart(fig3, config=config)
 
     col66,col77=st.columns(2)
     with col66:
@@ -281,14 +274,9 @@ if selected == "STOCK":
             end = st.date_input('end', value=pd.to_datetime('today'))
             edate = end.strftime("%Y-%m-%d")
         if len(sdate)>0 and len(edate)>0:
-            with open("access_token", 'r') as r:
-                access_token = r.read()
-            client_id = "0X7ILODH7P-100"
-            fyers = fyersModel.FyersModel(token=access_token, client_id=client_id, log_path=os.getcwd())
-            data = {"symbol": f"NSE:{dataa}-EQ", "resolution": "D", "date_format": "1", "range_from": sdate,
-                    "range_to": edate}
-            response = fyers.history(data)
-            df = pd.DataFrame(response['candles'])
+            info4 = base.history(period="1d",start=sdate,end=edate,actions=False)
+            df = pd.DataFrame(info4)
+            df = df.reset_index(['Date'])
             df.columns = ['date', 'open', 'high', 'low', 'close', 'volume']
             df['date']=pd.to_datetime(df['date'], unit='s')
             def pivotid(d_f_, l, n1, n2):
