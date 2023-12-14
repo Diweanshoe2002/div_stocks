@@ -196,7 +196,7 @@ if selected == "HOMEPAGE":
         st_lottie(url, height=100)
 
         st.header(" Top gainers today!")
-        ddff = pd.read_csv(f"C:\\Users\\hp\\AppData\\Roaming\\JetBrains\\PyCharmCE2023.2\\scratches\\2023-11-21.csv")
+        ddff = pd.read_csv("2023-11-21.csv")
         df=pd.DataFrame(ddff)
 
         indexnam=['NIFTYMETAL', 'NIFTYAUTO', 'NIFTYFMCG', 'NIFTY50', "NIFTYNEXT50", "NIFTY100", "NIFTY200", "NIFTY500", "NIFTYSMALLCAP50", "NIFTYSMALLCAP100", "NIFTYSMALLCAP250", "NIFTYMIDCAP50", "NIFTYMIDCAP100", "NIFTYMIDCAP50"]
