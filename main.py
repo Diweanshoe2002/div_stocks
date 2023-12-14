@@ -12,7 +12,6 @@ from plotly.subplots import make_subplots
 import matplotlib.pyplot as plt
 import plotly.graph_objects as go
 import plotly.express as px
-from fyers_api import fyersModel
 import sqlite3
 import mplfinance as mpf
 import json
