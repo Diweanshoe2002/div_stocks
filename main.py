@@ -51,7 +51,7 @@ def nse_headers_session(url):
 
 if selected == "HOMEPAGE":
     col1, col2, col3 = st.columns(3)
-    col1.metric("NIFTY-50")
+    col1.metric("NIFTY-50"," "," ")
     g2 = "^NSEI"
     info = Ticker(g2).history(period='1d', interval='5m',actions=False)
     info1 = pd.DataFrame(info)
@@ -72,7 +72,7 @@ if selected == "HOMEPAGE":
         st.plotly_chart(fig, config=config)
 
 
-    col2.metric("BANKNIFTY")
+    col2.metric("BANKNIFTY"," "," ")
     g3 = "^NSEBANK"
     info3 = Ticker(g3).history(period='1d', interval='5m',actions=False)
     info13 = pd.DataFrame(info3)
@@ -101,7 +101,7 @@ if selected == "HOMEPAGE":
 
     ty=(nse_get_index_quote("INDIA VIX"))
 
-    col3.metric("INDIA VIX")
+    col3.metric("INDIA VIX"," "," ")
     g4 = "^INDIAVIX"
     info4 = Ticker(g4).history(period='1d', interval='5m',actions=False)
     info14 = pd.DataFrame(info4)
@@ -432,13 +432,6 @@ if selected == "STOCK":
                 fig1 = mpf.plot(df.tail(50), type='candle', addplot= p)
                 st.set_option('deprecation.showPyplotGlobalUse', False)
                 st.pyplot(fig1)
-
-                pd.set_option("display.max_columns", 30)
-                file = "C:\\Users\\hp\\AppData\\Roaming\\JetBrains\\PyCharmCE2023.2\\scratches\\IOB.xlsx"
-                sheet = "Page 2 - Table 1"
-                df = pd.read_excel(io=file, sheet_name=sheet)
-                dff = pd.DataFrame(df)
-                st.dataframe(dff)
 
             response13 = nse_headers_session(f"https://www.nseindia.com/api/historical/securityArchives?symbol={dataa}&dataType=priceVolumeDeliverable&series=ALL")
             data = pd.json_normalize(response13['data'])
