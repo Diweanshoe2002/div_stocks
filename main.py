@@ -668,7 +668,7 @@ if selected == "DEALS":
             st.dataframe(BULKdealdf)
 
     with tab9:
-        s = pd.read_csv("C:\\Users\\hp\\Downloads\\INSIDER-31 AUG.csv")
+        s = pd.read_csv("INSIDER-31 AUG.csv")
         s.drop(["XBRL \n", "EXCHANGE \n", "REMARK \n", "NOTIONAL VALUE(BUY) \n",
                 "NUMBER OF UNITS/CONTRACT LOT SIZE (BUY) \n", "DERIVATIVE TYPE SECURITY \n",
                 "DERIVATIVE CONTRACT SPECIFICATION \n", "NOTIONAL VALUE(SELL) \n", "DATE OF ALLOTMENT/ACQUISITION TO \n",
