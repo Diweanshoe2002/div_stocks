@@ -1,11 +1,10 @@
 ﻿nsedt
-yahooquery
+yfinance
 streamlit_lottie
 streamlit_option_menu
 pandas_ta
 nsepython
 plotly
 matplotlib
-fyers-apiv2
 mplfinance
 datetime
