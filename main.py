@@ -43,7 +43,8 @@ def nse_headers_session(url):
                'accept-language': 'en,gu;q=0.9,hi;q=0.8', 'accept-encoding': 'gzip, deflate, br'}
     session = requests.Session()
     request = session.get(baseurl, headers=headers)
-    response = session.get(url, headers=headers)
+    cookies = dict(request.cookies)
+    response = session.get(url, headers=headers, cookies=cookies)
     raw = (response.json())
     return raw
 
