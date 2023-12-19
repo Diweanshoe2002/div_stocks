@@ -37,14 +37,18 @@ selected = option_menu(menu_title=None, options=["HOMEPAGE", "STOCK", "EVENT CAL
 #add_bg_from_url()
 def nse_headers_session(url):
     baseurl = "https://www.nseindia.com/"
-    headers = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, '
-                             'like Gecko) '
-                             'Chrome/80.0.3987.149 Safari/537.36',
-               'accept-language': 'en,gu;q=0.9,hi;q=0.8', 'accept-encoding': 'gzip, deflate, br'}
+    headers = {'"Host": "www.nseindia.com",
+        "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:85.0) Gecko/20100101 Firefox/85.0",
+        "Accept": "*/*",
+        "Accept-Language": "en-US,en;q=0.5",
+        "Accept-Encoding": "gzip, deflate, br",
+        "X-Requested-With": "XMLHttpRequest",
+        "DNT": "1",
+        "Connection": "keep-alive"}
     session = requests.Session()
-    request = session.get(baseurl, headers=headers)
+    request = requests.get(baseurl, headers=headers)
     cookies = dict(request.cookies)
-    response = session.get(url, headers=headers, cookies=cookies)
+    response = requests.get(url, headers=headers, cookies=cookies)
     raw = (response.json())
     return raw
 
