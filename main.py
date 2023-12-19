@@ -45,7 +45,6 @@ def nse_headers_session(url):
         "X-Requested-With": "XMLHttpRequest",
         "DNT": "1",
         "Connection": "keep-alive"}
-    session = requests.Session()
     request = requests.get(baseurl, headers=headers)
     cookies = dict(request.cookies)
     response = requests.get(url, headers=headers, cookies=cookies)
