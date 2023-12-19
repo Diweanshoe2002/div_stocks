@@ -37,7 +37,7 @@ selected = option_menu(menu_title=None, options=["HOMEPAGE", "STOCK", "EVENT CAL
 #add_bg_from_url()
 def nse_headers_session(url):
     baseurl = "https://www.nseindia.com/"
-    headers = {'"Host": "www.nseindia.com",
+    headers = {"Host": "www.nseindia.com",
         "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:85.0) Gecko/20100101 Firefox/85.0",
         "Accept": "*/*",
         "Accept-Language": "en-US,en;q=0.5",
