@@ -1,6 +1,6 @@
 import requests
 import streamlit
-
+import pandas as pd
 header = {
     "Connection": "keep-alive",
     "Cache-Control": "max-age=0",
@@ -22,5 +22,5 @@ def nse_urlfetch(url):
 data_text = nse_urlfetch(url).text
 with open('BLUK.csv', 'w') as f:
         f.write(data_text)
-    f.close()
-streamlit.dataframe= pd.read_csv('BULK.csv')
+        f.close()
+    streamlit.dataframe= pd.read_csv('BULK.csv')
