@@ -12,7 +12,7 @@ header = {
     "Accept-Encoding": "gzip, deflate, br", "Accept-Language": "en-US,en;q=0.9,hi;q=0.8"
     }
 
-url="https://www.nseindia.com/api/historical/bulk-deals?from=15-12-2023&to=19-12-2023&csv=true"
+url="https://www.nseindia.com/api/historical/bulk-deals?from=18-12-2023&to=19-12-2023&csv=true"
 
 def nse_urlfetch(url):
     r_session = requests.session()
