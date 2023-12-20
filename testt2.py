@@ -20,7 +20,7 @@ def nse_urlfetch(url):
     return r_session.get(url, headers=header)
 
 data_text = nse_urlfetch(url).text
-f= open('BLUK.csv', 'w')
-f.write(data_text)
-f.close()
-streamlit.dataframe= pd.read_csv("BULK.csv")
+#f= open('BLUK.csv', 'w')
+#f.write(data_text)
+#f.close()
+streamlit.dataframe= pd.read_csv(data_text)
