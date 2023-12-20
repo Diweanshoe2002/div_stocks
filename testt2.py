@@ -23,4 +23,4 @@ data_text = nse_urlfetch(url).text
 #f= open('BLUK.csv', 'w')
 #f.write(data_text)
 #f.close()
-streamlit.dataframe= pd.read_csv(data_text)
+streamlit.write(data_text)
