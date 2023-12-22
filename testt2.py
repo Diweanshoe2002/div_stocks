@@ -17,7 +17,7 @@ cursor.close()
 conn.close()
 
 # Create a pandas DataFrame from the results
-df = pd.dataframe(results)
+df = pd.DataFrame(results)
 
 # Print the DataFrame
 st.Dataframe(df)
