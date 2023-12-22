@@ -8,4 +8,4 @@ plotly
 matplotlib
 mplfinance
 datetime
-path
+sqlite3
