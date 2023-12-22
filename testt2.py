@@ -20,4 +20,4 @@ conn.close()
 df = pd.DataFrame(results)
 
 # Print the DataFrame
-st.Dataframe(df)
+st.dataframe(df)
