@@ -1,14 +1,23 @@
+import sqlite3
+import pandas as pd
 import streamlit as st
-import requests
+conn = sqlite3.connect('example.db')
 
-# FastAPI endpoint URL
-fastapi_url = "https://b603-139-5-197-146.ngrok-free.app/get_csv_data"
+# Create a cursor object
+cursor = conn.cursor()
 
-# Make a request to the FastAPI endpoint
-response = requests.get(fastapi_url)
+# Execute a SQL query
+cursor.execute('SELECT * FROM fii_table')
 
-# Check if the request was successful (status code 200)
-if response.status_code == 200:
-    # Parse the JSON response from FastAPI
-    data = response.json()
-    st.json(data)
+# Fetch all the results
+results = cursor.fetchall()
+
+# Close the cursor and the connection
+cursor.close()
+conn.close()
+
+# Create a pandas DataFrame from the results
+df = pd.DataFrame(results)
+
+# Print the DataFrame
+st.Dataframe(df)
