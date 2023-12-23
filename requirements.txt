@@ -1,10 +1,2 @@
 ﻿fastapi
-yfinance
-streamlit_lottie
-streamlit_option_menu
-pandas_ta
-nsepython
-plotly
-matplotlib
-mplfinance
-datetime
+uvicorn
