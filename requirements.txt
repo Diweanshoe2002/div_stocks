@@ -1,4 +1,4 @@
-﻿nsedt
+﻿fastapi
 yfinance
 streamlit_lottie
 streamlit_option_menu
@@ -8,4 +8,3 @@ plotly
 matplotlib
 mplfinance
 datetime
-path
