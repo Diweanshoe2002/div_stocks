@@ -1,2 +1,4 @@
 ﻿fastapi
 uvicorn
+requests
+json
