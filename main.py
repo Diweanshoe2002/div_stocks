@@ -698,13 +698,10 @@ if selected == "DEALS":
 if selected == "EVENT CALENDER":
     tab1, tab6, tab10= st.tabs(["CORPORATE ACTION", "EARNINGS", "EVENTS"])
     with tab1:
-        gc = gspread.service_account(filename='service_account.json')
         sheet_id = "1T79XwzC8sG7pMHaNXYug9BJ9uwseBtLbrLM0G4seBAc"
         sheet_name = "Sheet1"
         link = "https://docs.google.com/spreadsheets/d/{}/gviz/tq?tqx=out:csv&sheet={}".format(sheet_id, sheet_name)
-        sh = gc.open_by_url(link)
-        ws = sh.worksheet(sheet_name)
-        p = pd.DataFrame(ws.get_all_records()) 
+        p = pd.DataFrame(link) 
         para = st.selectbox('PURPOSE', p['purpose'].unique())
         option = []
         option.append(para)
