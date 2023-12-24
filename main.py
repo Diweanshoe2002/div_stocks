@@ -129,13 +129,10 @@ if selected == "HOMEPAGE":
     col66,col77=st.columns(2)
     with col66:
         st.subheader("FII/DII DATA")
-        gc = gspread.service_account(filename='service_account.json')
         sheet_id = "1T79XwzC8sG7pMHaNXYug9BJ9uwseBtLbrLM0G4seBAc"
         sheet_name = "Sheet4"
         link = "https://docs.google.com/spreadsheets/d/{}/gviz/tq?tqx=out:csv&sheet={}".format(sheet_id, sheet_name)
-        sh = gc.open_by_url(link)
-        ws = sh.worksheet(sheet_name)
-        fiidii = pd.DataFrame(ws.get_all_records())
+        fiidii = pd.read_csv(link)
         st.write(" ")
         st.write(" ")
         st.write(" ")
@@ -663,23 +660,17 @@ if selected == "STOCK":
 if selected == "DEALS":
     tab7, tab8, tab9, tab12= st.tabs(['BULK', 'BLOCK', 'INSIDER', 'SHORT SELLING'])
     with tab7:
-      gc = gspread.service_account(filename='service_account.json')
       sheet_id = "1T79XwzC8sG7pMHaNXYug9BJ9uwseBtLbrLM0G4seBAc"
       sheet_name = "Sheet3"
       link = "https://docs.google.com/spreadsheets/d/{}/gviz/tq?tqx=out:csv&sheet={}".format(sheet_id, sheet_name)
-      sh = gc.open_by_url(link)
-      ws = sh.worksheet(sheet_name)
-      LARGEdealdf = pd.DataFrame(ws.get_all_records())
+      LARGEdealdf = pd.read_csv(link)
       LARGEdealdf.drop(['remarks'], inplace=True, axis=1)
       st.dataframe(LARGEdealdf)
     with tab8:
-        gc = gspread.service_account(filename='service_account.json')
         sheet_id = "1T79XwzC8sG7pMHaNXYug9BJ9uwseBtLbrLM0G4seBAc"
         sheet_name = "Sheet2"
         link = "https://docs.google.com/spreadsheets/d/{}/gviz/tq?tqx=out:csv&sheet={}".format(sheet_id, sheet_name)
-        sh = gc.open_by_url(link)
-        ws = sh.worksheet(sheet_name)
-        BULKdealdf = pd.DataFrame(ws.get_all_records())  
+        BULKdealdf = pd.read_csv(link)  
         if len(BULKdealdf)==0:
             st.write("NO BULK DEAL FOUND")
         else:
