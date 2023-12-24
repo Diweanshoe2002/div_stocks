@@ -731,13 +731,10 @@ if selected == "EVENT CALENDER":
                 st.session_state.start += 20
 
     with tab10:
-        gc = gspread.service_account(filename='service_account.json')
         sheet_id = "1T79XwzC8sG7pMHaNXYug9BJ9uwseBtLbrLM0G4seBAc"
         sheet_name = "Sheet5"
         link = "https://docs.google.com/spreadsheets/d/{}/gviz/tq?tqx=out:csv&sheet={}".format(sheet_id, sheet_name)
-        sh = gc.open_by_url(link)
-        ws = sh.worksheet(sheet_name)
-        data = pd.DataFrame(ws.get_all_records())
+        data = pd.read_csv(link)
         data=data[data['series']=='EQ']
         data.drop(data.iloc[:, 7:10], inplace=True, axis=1)
         data.drop(data.iloc[:, 8:11], inplace=True, axis=1)
