@@ -136,8 +136,6 @@ if selected == "HOMEPAGE":
         sh = gc.open_by_url(link)
         ws = sh.worksheet(sheet_name)
         fiidii = pd.DataFrame(ws.get_all_records())
-        #response12=nse_headers_session("https://www.nseindia.com/api/fiidiiTradeReact")
-        #fiidii=pd.json_normalize(response12)
         st.write(" ")
         st.write(" ")
         st.write(" ")
@@ -664,16 +662,24 @@ if selected == "STOCK":
 
 if selected == "DEALS":
     tab7, tab8, tab9, tab12= st.tabs(['BULK', 'BLOCK', 'INSIDER', 'SHORT SELLING'])
-    urlLdeal ="https://www.nseindia.com/api/snapshot-capital-market-largedeal"
-    response4 = nse_headers_session(urlLdeal)
-    LARGEdealdf = pd.json_normalize(response4['BULK_DEALS_DATA'])
-    LARGEdealdf.drop(['remarks'], inplace=True, axis=1)
-    urlBdeal ="https://www.nseindia.com/api/block-deal"
-    response5=nse_headers_session(urlBdeal)
     with tab7:
-        st.dataframe(LARGEdealdf)
+      gc = gspread.service_account(filename='service_account.json')
+      sheet_id = "1T79XwzC8sG7pMHaNXYug9BJ9uwseBtLbrLM0G4seBAc"
+      sheet_name = "Sheet3"
+      link = "https://docs.google.com/spreadsheets/d/{}/gviz/tq?tqx=out:csv&sheet={}".format(sheet_id, sheet_name)
+      sh = gc.open_by_url(link)
+      ws = sh.worksheet(sheet_name)
+      LARGEdealdf = pd.DataFrame(ws.get_all_records())
+      LARGEdealdf.drop(['remarks'], inplace=True, axis=1)
+      st.dataframe(LARGEdealdf)
     with tab8:
-        BULKdealdf = pd.json_normalize(response5['data'])
+        gc = gspread.service_account(filename='service_account.json')
+        sheet_id = "1T79XwzC8sG7pMHaNXYug9BJ9uwseBtLbrLM0G4seBAc"
+        sheet_name = "Sheet2"
+        link = "https://docs.google.com/spreadsheets/d/{}/gviz/tq?tqx=out:csv&sheet={}".format(sheet_id, sheet_name)
+        sh = gc.open_by_url(link)
+        ws = sh.worksheet(sheet_name)
+        BULKdealdf = pd.DataFrame(ws.get_all_records())  
         if len(BULKdealdf)==0:
             st.write("NO BULK DEAL FOUND")
         else:
