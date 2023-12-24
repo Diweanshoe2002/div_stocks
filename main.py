@@ -701,7 +701,7 @@ if selected == "EVENT CALENDER":
         sheet_id = "1T79XwzC8sG7pMHaNXYug9BJ9uwseBtLbrLM0G4seBAc"
         sheet_name = "Sheet1"
         link = "https://docs.google.com/spreadsheets/d/{}/gviz/tq?tqx=out:csv&sheet={}".format(sheet_id, sheet_name)
-        p = pd.DataFrame(link) 
+        p = pd.read_csv(link) 
         para = st.selectbox('PURPOSE', p['purpose'].unique())
         option = []
         option.append(para)
