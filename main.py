@@ -677,17 +677,15 @@ if selected == "DEALS":
             st.dataframe(BULKdealdf)
 
     with tab9:
-        s = pd.read_csv("INSIDER-31 AUG.csv")
-        s.drop(["XBRL \n", "EXCHANGE \n", "REMARK \n", "NOTIONAL VALUE(BUY) \n",
-                "NUMBER OF UNITS/CONTRACT LOT SIZE (BUY) \n", "DERIVATIVE TYPE SECURITY \n",
-                "DERIVATIVE CONTRACT SPECIFICATION \n", "NOTIONAL VALUE(SELL) \n", "DATE OF ALLOTMENT/ACQUISITION TO \n",
-                "NUMBER OF UNITS/CONTRACT LOT SIZE  (SELL) \n", "REGULATION \n", "% SHAREHOLDING (PRIOR) \n",
-                "TYPE OF SECURITY (ACQUIRED/DISPLOSED) \n", "TYPE OF SECURITY (PRIOR) \n", "NO. OF SECURITY (PRIOR) \n",
-                "% POST \n", "TYPE OF SECURITY (POST) \n", "NO. OF SECURITY (POST) \n", "DATE OF ALLOTMENT/ACQUISITION FROM \n"], axis=1, inplace=True)
-        person = ["Promoters", "Promoter", "Promoter Group"]
-        s = s[s["MODE OF ACQUISITION \n"] == 'Market Purchase']
-        s = s[s["CATEGORY OF PERSON \n"].isin(person)]
-        st.dataframe(s)
+        sheet_id = "1T79XwzC8sG7pMHaNXYug9BJ9uwseBtLbrLM0G4seBAc"
+        sheet_name = "Sheet6"
+        link = "https://docs.google.com/spreadsheets/d/{}/gviz/tq?tqx=out:csv&sheet={}".format(sheet_id, sheet_name)
+        insiderdf = pd.read_csv(link)  
+        insiderdf.drop(["anex"], axis=1, inplace=True)
+        #person = ["Promoters", "Promoter", "Promoter Group"]
+        #s = s[s["MODE OF ACQUISITION \n"] == 'Market Purchase']
+        #s = s[s["CATEGORY OF PERSON \n"].isin(person)]
+        st.dataframe(insiderdf)
 
     with tab12:
         response7 = nse_headers_session("https://www.nseindia.com/api/historical/short-selling")
