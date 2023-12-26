@@ -157,21 +157,21 @@ if selected == "HOMEPAGE":
     col33, col44, col55=st.columns(3)
     fig1.update_layout(autosize=False, width=1200, height=550)
     st.plotly_chart(fig1)
-    #with col55:
-    #fig = px.treemap(X,path=['SECTOR', 'STOCK NAME'], values="CURRENT")
-    #fig.data[0].textinfo = 'label+text+value'
-    #fig.update_traces(marker=dict(cornerradius=10))
-    #st.plotly_chart(fig)
 
-    response1 = nse_headers_session("https://www.nseindia.com/api/live-analysis-price-band-hitter")
-    upper = (response1['upper']['AllSec']['data'])
+
+    sheet_id = "1T79XwzC8sG7pMHaNXYug9BJ9uwseBtLbrLM0G4seBAc"
+    sheet_name = "Sheet8"
+    link = "https://docs.google.com/spreadsheets/d/{}/gviz/tq?tqx=out:csv&sheet={}".format(sheet_id, sheet_name)
+    upper = pd.read_csv(link)
     upperdf = pd.DataFrame(upper)
     st.write("UPPER CURCUIT STOCKS")
     pb=st.selectbox("PRICEBAND", upperdf['priceBand'].unique())
     upperdf = (upperdf[upperdf['series'] == "EQ"])
     st.dataframe(upperdf[upperdf['priceBand'].isin([pb])])
 
-    lower = (response1['lower']['AllSec']['data'])
+    sheet_name = "Sheet9"
+    link1 = "https://docs.google.com/spreadsheets/d/{}/gviz/tq?tqx=out:csv&sheet={}".format(sheet_id, sheet_name)
+    lower = pd.read_csv(link1)
     lowerdf = pd.DataFrame(lower)
     st.write("LOWER CURCUIT STOCKS")
     lb=st.selectbox("priceband", lowerdf['priceBand'].unique())
