@@ -146,8 +146,10 @@ if selected == "HOMEPAGE":
         fig.update_layout(bargap=0.5)
         st.plotly_chart(fig)
 
-    response10=nse_headers_session("https://www.nseindia.com/api/allIndices")
-    index=pd.json_normalize(response10['data'])
+    sheet_id = "1T79XwzC8sG7pMHaNXYug9BJ9uwseBtLbrLM0G4seBAc"
+    sheet_name = "Sheet7"
+    link = "https://docs.google.com/spreadsheets/d/{}/gviz/tq?tqx=out:csv&sheet={}".format(sheet_id, sheet_name)
+    index = pd.read_csv(link)
     fig1 = px.treemap(index, path=[px.Constant("INDEXES"), 'key', 'indexSymbol'], values="last", color="percentChange")
     fig1.data[0].textinfo = 'label+text+value'
     fig1.update_traces(marker=dict(cornerradius=10))
