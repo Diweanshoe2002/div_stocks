@@ -688,10 +688,8 @@ if selected == "DEALS":
         st.dataframe(insiderdf)
 
     with tab12:
-        response7 = nse_headers_session("https://www.nseindia.com/api/historical/short-selling")
-        shorts = pd.json_normalize(response7['data'])
-
-        st.dataframe(shorts)
+        st.write("https://www.nseindia.com/api/historical/short-selling")
+      
 
 if selected == "EVENT CALENDER":
     tab1, tab6, tab10= st.tabs(["CORPORATE ACTION", "EARNINGS", "EVENTS"])
