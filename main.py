@@ -697,7 +697,7 @@ if selected == "EVENT CALENDER":
     tab1, tab6, tab10= st.tabs(["CORPORATE ACTION", "EARNINGS", "EVENTS"])
     with tab1:
         sheet_id = "1T79XwzC8sG7pMHaNXYug9BJ9uwseBtLbrLM0G4seBAc"
-        sheet_name = "Sheet1"
+        sheet_name = "Sheet5"
         link = "https://docs.google.com/spreadsheets/d/{}/gviz/tq?tqx=out:csv&sheet={}".format(sheet_id, sheet_name)
         p = pd.read_csv(link) 
         para = st.selectbox('PURPOSE', p['purpose'].unique())
@@ -730,7 +730,7 @@ if selected == "EVENT CALENDER":
 
     with tab10:
         sheet_id = "1T79XwzC8sG7pMHaNXYug9BJ9uwseBtLbrLM0G4seBAc"
-        sheet_name = "Sheet5"
+        sheet_name = "Sheet1"
         link = "https://docs.google.com/spreadsheets/d/{}/gviz/tq?tqx=out:csv&sheet={}".format(sheet_id, sheet_name)
         data = pd.read_csv(link)
         data=data[data['series']=='EQ']
