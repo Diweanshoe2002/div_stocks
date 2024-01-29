@@ -178,19 +178,11 @@ if selected == "HOMEPAGE":
     lowerdf = (lowerdf[lowerdf['series'] == "EQ"])
     st.dataframe(lowerdf[lowerdf['priceBand'].isin([lb])])
 
-    st.subheader("Pre Market Opening Price")
-    PRE = st.selectbox("Select Category", ["NIFTY", "OTHERS"])
-    response2 = nse_headers_session(f"https://www.nseindia.com/api/market-data-pre-open?key={PRE}")
-    pre = pd.json_normalize(response2['data'])
-    predf = pd.DataFrame(pre)
-    predf.drop(predf.iloc[:, 1:19], inplace=True,axis=1)
-    predf.drop(predf.iloc[:, 2:9], inplace=True, axis=1)
-    st.dataframe(predf)
-
     st.subheader("Most Active Stocks")
-    actv = st.selectbox("Type", ["value", "volume"])
-    response3 = nse_headers_session(f"https://www.nseindia.com/api/live-analysis-most-active-securities?index={actv}")
-    actvdf = pd.json_normalize(response3['data'])
+    sheet_name = "Sheet10"
+    link = "https://docs.google.com/spreadsheets/d/{}/gviz/tq?tqx=out:csv&sheet={}".format(sheet_id, sheet_name)
+    actv = pd.read_csv(link)
+    actvdf = pd.Dataframe(actv)
     actvdf.drop(actvdf.iloc[:, 1:5], inplace=True, axis=1)
     st.dataframe(actvdf)
 
