@@ -178,13 +178,21 @@ if selected == "HOMEPAGE":
     lowerdf = (lowerdf[lowerdf['series'] == "EQ"])
     st.dataframe(lowerdf[lowerdf['priceBand'].isin([lb])])
 
-    st.subheader("Most Active Stocks")
+    st.subheader("Most Active Stocks - VALUE")
     sheet_name = "Sheet10"
     link = "https://docs.google.com/spreadsheets/d/{}/gviz/tq?tqx=out:csv&sheet={}".format(sheet_id, sheet_name)
     actv = pd.read_csv(link)
     actvdf = pd.DataFrame(actv)
     actvdf.drop(actvdf.iloc[:, 1:5], inplace=True, axis=1)
     st.dataframe(actvdf)
+
+    st.subheader("Most Active Stocks - VOLUME")
+    sheet_name = "Sheet11"
+    link = "https://docs.google.com/spreadsheets/d/{}/gviz/tq?tqx=out:csv&sheet={}".format(sheet_id, sheet_name)
+    actv1 = pd.read_csv(link)
+    actvdf1 = pd.DataFrame(actv1)
+    actvdf1.drop(actvdf1.iloc[:, 1:5], inplace=True, axis=1)
+    st.dataframe(actvdf1)
 
     col3, col4 = st.columns(2)
     with col3:
