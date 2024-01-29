@@ -19,7 +19,7 @@ import json
 import matplotlib.collections as collections
 from datetime import datetime
 from matplotlib.gridspec import GridSpec
-import os
+from io import StringIO
 st.set_page_config(page_title=None, page_icon=None, layout="wide", initial_sidebar_state="auto", menu_items=None)
 selected = option_menu(menu_title=None, options=["HOMEPAGE", "STOCK", "EVENT CALENDER", "DEALS", "NEWS"], icons=["house-fill", "graph-up-arrow", "calendar3","newspaper"],
                        orientation="horizontal")
@@ -205,8 +205,16 @@ if selected == "HOMEPAGE":
         st_lottie(url, height=100)
 
         st.header(" Top gainers today!")
-        ddff = pd.read_csv("2023-11-21.csv")
-        df=pd.DataFrame(ddff)
+        url = "https://archives.nseindia.com/products/content/sec_bhavdata_full_29012024.csv"
+        response = requests.get(url)
+        c = pd.read_csv(StringIO(response.text))
+        df = pd.DataFrame(c)
+        df = df.drop([" DELIV_PER", " TURNOVER_LACS", " NO_OF_TRADES", " DELIV_QTY", " OPEN_PRICE", " AVG_PRICE",
+                      " TTL_TRD_QNTY"], axis=1)
+        df['CHANGE'] = df.apply(lambda x: (x[' CLOSE_PRICE'] - x[' PREV_CLOSE']), axis=1)
+        df['PCHANGE'] = df.apply(lambda x: (((x[' CLOSE_PRICE'] - x[' PREV_CLOSE']) / x[' CLOSE_PRICE']) * 100), axis=1)
+        df['PCHANGE'] = df['PCHANGE'].apply(lambda x: round(x, 2))
+
 
         indexnam=['NIFTYMETAL', 'NIFTYAUTO', 'NIFTYFMCG', 'NIFTY50', "NIFTYNEXT50", "NIFTY100", "NIFTY200", "NIFTY500", "NIFTYSMALLCAP50", "NIFTYSMALLCAP100", "NIFTYSMALLCAP250", "NIFTYMIDCAP50", "NIFTYMIDCAP100", "NIFTYMIDCAP50"]
         opt=st.selectbox("select index", indexnam)
