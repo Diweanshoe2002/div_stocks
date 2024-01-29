@@ -182,7 +182,7 @@ if selected == "HOMEPAGE":
     sheet_name = "Sheet10"
     link = "https://docs.google.com/spreadsheets/d/{}/gviz/tq?tqx=out:csv&sheet={}".format(sheet_id, sheet_name)
     actv = pd.read_csv(link)
-    actvdf = pd.Dataframe(actv)
+    actvdf = pd.DataFrame(actv)
     actvdf.drop(actvdf.iloc[:, 1:5], inplace=True, axis=1)
     st.dataframe(actvdf)
 
