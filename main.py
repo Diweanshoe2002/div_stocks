@@ -223,7 +223,7 @@ if selected == "HOMEPAGE":
         datadf = pd.DataFrame(data)
         list=(datadf['Symbol'].values.tolist())
         df1=df[df['SYMBOL'].isin(list)]
-        st.dataframe(df1.sort_values(by=['pchange'], ascending=False))
+        st.dataframe(df1.sort_values(by=['PCHANGE'], ascending=False))
 
 
 
@@ -243,7 +243,7 @@ if selected == "HOMEPAGE":
         datadf = pd.DataFrame(data)
         list = (datadf['Symbol'].values.tolist())
         df1 = df[df['SYMBOL'].isin(list)]
-        st.dataframe(df1.sort_values(by=['pchange'], ascending=True))
+        st.dataframe(df1.sort_values(by=['PCHANGE'], ascending=True))
 
 
     fig = plt.figure()
