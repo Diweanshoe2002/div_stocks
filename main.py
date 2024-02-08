@@ -205,7 +205,7 @@ if selected == "HOMEPAGE":
         st_lottie(url, height=100)
 
         st.header(" Top gainers today!")
-        url = "https://archives.nseindia.com/products/content/sec_bhavdata_full_29012024.csv"
+        url = "https://archives.nseindia.com/products/content/sec_bhavdata_full_07022024.csv"
         response = requests.get(url)
         c = pd.read_csv(StringIO(response.text))
         df = pd.DataFrame(c)
