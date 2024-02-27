@@ -691,7 +691,7 @@ if selected == "DEALS":
         sheet_name = "Sheet6"
         link = "https://docs.google.com/spreadsheets/d/{}/gviz/tq?tqx=out:csv&sheet={}".format(sheet_id, sheet_name)
         insiderdf = pd.read_csv(link)  
-        insiderdf.drop(["anex"], axis=1, inplace=True)
+        insiderdf.drop(["anex,"tkdAcqm","buyValue","sellValue","buyQuantity"], axis=1, inplace=True)
         #person = ["Promoters", "Promoter", "Promoter Group"]
         #s = s[s["MODE OF ACQUISITION \n"] == 'Market Purchase']
         #s = s[s["CATEGORY OF PERSON \n"].isin(person)]
