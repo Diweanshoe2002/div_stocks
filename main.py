@@ -501,19 +501,19 @@ if selected == "STOCK":
         summ = (llm_chain.run(text))
         st.write(sum)
 
-            def display_after_dash(input_string):
+        def display_after_dash(input_string):
                 # Split the string at each occurrence of "-"
                 substrings = input_string.split("-")
 
                 # Join the substrings with newline characters
                 result_string = "\n".join(substrings)
 
-                return result_string
+            return result_string
 
 
-            output_str = display_after_dash(summ)
+        output_str = display_after_dash(summ)
 
-            st.write(output_str)
+        st.write(output_str)
 
 
         if selected1 == "ORDERS":
