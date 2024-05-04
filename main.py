@@ -508,7 +508,7 @@ if selected == "STOCK":
                 # Join the substrings with newline characters
                 result_string = "\n".join(substrings)
 
-            return result_string
+        return result_string
 
 
         output_str = display_after_dash(summ)
