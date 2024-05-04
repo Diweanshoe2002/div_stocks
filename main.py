@@ -475,73 +475,31 @@ if selected == "STOCK":
         today = date.today()
         end_date = today.strftime("%d-%m-%Y")
 
-        corpinfourl = f"https://www.nseindia.com/api/corp-info?symbol={dataa}&corpType=announcement&market=equities"
-        response14 = nse_headers_session(corpinfourl)
-        raw = pd.json_normalize(response14)
-        f = pd.DataFrame(raw)
-        selected1 = option_menu(menu_title=None, options=["QUATERLY RESULT", "INVESTOR PRESENTATION", "TRANSCRIPT", "ORDERS", "MONTHLY UPDATE"], orientation="horizontal")
-                               #icons=[],
+        from langchain.llms.huggingface_hub import HuggingFaceHub
+        import os
+        from langchain.chains import LLMChain
+        from langchain.prompts import PromptTemplate
 
-        if selected1=="QUATERLY RESULT":
-            option3 = ["Financial Result Updates"]
-            new_df1 = f[f['desc'].isin(option3)]
-            pdf_url1=new_df1.iloc[0]['attchmntFile']
-
-            def render_pdf_viewer1(pdf_url1):
-                return f'<iframe src="{pdf_url1}" width="1050" height="600"></iframe>'
-            st.markdown(render_pdf_viewer1(pdf_url1), unsafe_allow_html=True)
-
-        if selected1 == "INVESTOR PRESENTATION":
-            option4 = ["Investor Presentation"]
-            new_df2 = f[f['desc'].isin(option4)]
-            if len(new_df2)== 0:
-
-                st.write("No PPT found")
-            else:
-                pdf_url2=new_df2.iloc[0]['attchmntFile']
-                def render_pdf_viewer2(pdf_url2):
-                    return f'<iframe src="{pdf_url2}" width="1050" height="600"></iframe>'
-                st.markdown(render_pdf_viewer2(pdf_url2), unsafe_allow_html=True)
-
-        if selected1 == "TRANSCRIPT":
-            option5 = ["has informed the Exchange about Transcript"]
-            fr=f[f['attchmntText'].str.contains('|'.join(option5), case=False)]
-            if len(fr) == 0:
-                st.write("No Transcript found")
-            else:
-                pdf_url3 = fr.iloc[0]['attchmntFile']
-                def render_pdf_viewer2(pdf_url3):
-                    return f'<iframe src="{pdf_url3}" width="1050" height="600"></iframe>'
-                st.markdown(render_pdf_viewer2(pdf_url3), unsafe_allow_html=True)
-
-          from langchain.llms.huggingface_hub import HuggingFaceHub
-          import getpass
-          import os
-          from langchain.chains import LLMChain
-          from langchain.prompts import PromptTemplate
-
-          HUGGINGFACEHUB_API_TOKEN = "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"
-          os.environ["HUGGINGFACEHUB_API_TOKEN"] = HUGGINGFACEHUB_API_TOKEN
-          from pypdf import PdfReader
-
-          reader = PdfReader("TCSCONCALL.pdf")
-          for i in range(2, 10):
+        HUGGINGFACEHUB_API_TOKEN = "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"
+        os.environ["HUGGINGFACEHUB_API_TOKEN"] = HUGGINGFACEHUB_API_TOKEN
+        from pypdf import PdfReader
+        reader = PdfReader("TCSCONCALL.pdf")
+        for i in range(2, 10):
                 page = reader.pages[i]
                 text = " "
                 text += page.extract_text()
             
-          repo_id = "HuggingFaceH4/zephyr-7b-beta"
-          llm = HuggingFaceHub(repo_id=repo_id, model_kwargs={"temperature": 0.1, "max_length": 100})
-          template = """Write a summary of the following text delimited by triple backtick as a Financial Analyst
+        repo_id = "HuggingFaceH4/zephyr-7b-beta"
+        llm = HuggingFaceHub(repo_id=repo_id, model_kwargs={"temperature": 0.1, "max_length": 100})
+        template = """Write a summary of the following text delimited by triple backtick as a Financial Analyst
                                 Return your response which covers the key points of the text in bullet points.
                                 ```{text}```
                                BULLET POINT SUMMARY:
                              """
-          prompt = PromptTemplate(template=template, input_variables=["text"])
-          llm_chain = LLMChain(prompt=prompt, llm=llm)
-          summ = (llm_chain.run(text))
-          st.write(sum)
-
+        prompt = PromptTemplate(template=template, input_variables=["text"])
+        llm_chain = LLMChain(prompt=prompt, llm=llm)
+        summ = (llm_chain.run(text))
+        st.write(sum)
 
             def display_after_dash(input_string):
                 # Split the string at each occurrence of "-"
