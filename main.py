@@ -261,7 +261,7 @@ if selected == "HOMEPAGE":
     st.pyplot(fig)
 
 if selected == "STOCK":
-    tab1, tab8 = st.tabs(["GENERAL INFO", "FUNDAMENTALS"])
+    tab1= st.tabs(["GENERAL INFO"])
     with tab1:
         df = pd.read_csv('STOCKDATA.csv')
         dataa = st.selectbox('Which stock do you want to analyze?', df['Security Id'])
