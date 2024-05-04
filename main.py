@@ -514,33 +514,33 @@ if selected == "STOCK":
                     return f'<iframe src="{pdf_url3}" width="1050" height="600"></iframe>'
                 st.markdown(render_pdf_viewer2(pdf_url3), unsafe_allow_html=True)
 
-            from langchain.llms.huggingface_hub import HuggingFaceHub
-            import getpass
-            import os
-            from langchain.chains import LLMChain
-            from langchain.prompts import PromptTemplate
+          from langchain.llms.huggingface_hub import HuggingFaceHub
+          import getpass
+          import os
+          from langchain.chains import LLMChain
+          from langchain.prompts import PromptTemplate
 
-            HUGGINGFACEHUB_API_TOKEN = "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"
-            os.environ["HUGGINGFACEHUB_API_TOKEN"] = HUGGINGFACEHUB_API_TOKEN
-            from pypdf import PdfReader
+          HUGGINGFACEHUB_API_TOKEN = "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"
+          os.environ["HUGGINGFACEHUB_API_TOKEN"] = HUGGINGFACEHUB_API_TOKEN
+          from pypdf import PdfReader
 
-            reader = PdfReader("C:\\Users\\hp\\\PycharmProjects\\PYFINPROJECT\\TCSCONCALL.pdf")
-            for i in range(2, 6):
+          reader = PdfReader("TCSCONCALL.pdf")
+          for i in range(2, 10):
                 page = reader.pages[i]
                 text = " "
                 text += page.extract_text()
-                print(text)
-            repo_id = "HuggingFaceH4/zephyr-7b-beta"
-            llm = HuggingFaceHub(repo_id=repo_id, model_kwargs={"temperature": 0.1, "max_length": 100})
-            template = """Write a summary of the following text delimited by triple backtick as a Financial Analyst
+            
+          repo_id = "HuggingFaceH4/zephyr-7b-beta"
+          llm = HuggingFaceHub(repo_id=repo_id, model_kwargs={"temperature": 0.1, "max_length": 100})
+          template = """Write a summary of the following text delimited by triple backtick as a Financial Analyst
                                 Return your response which covers the key points of the text in bullet points.
                                 ```{text}```
                                BULLET POINT SUMMARY:
                              """
-            prompt = PromptTemplate(template=template, input_variables=["text"])
-            llm_chain = LLMChain(prompt=prompt, llm=llm)
-            summ = (llm_chain.run(text))
-            st.write(sum)
+          prompt = PromptTemplate(template=template, input_variables=["text"])
+          llm_chain = LLMChain(prompt=prompt, llm=llm)
+          summ = (llm_chain.run(text))
+          st.write(sum)
 
 
             def display_after_dash(input_string):
