@@ -540,6 +540,7 @@ if selected == "STOCK":
             prompt = PromptTemplate(template=template, input_variables=["text"])
             llm_chain = LLMChain(prompt=prompt, llm=llm)
             summ = (llm_chain.run(text))
+            st.write(sum)
 
 
             def display_after_dash(input_string):
@@ -626,46 +627,7 @@ if selected == "STOCK":
             if len(new_df)==0:
                 st.subheader("NO Corp_Action Found")
             else:
-                 st.dataframe(new_df)
-
-    with tab8:
-        from yahooquery import Ticker
-        st.header("FINACIAL SNAPSHOT")
-        ddta1 = dataa + str(".NS")
-        base1 = Ticker(ddta1)
-        IMFO =base1.valuation_measures
-        iny = pd.DataFrame(IMFO)
-        iny = iny.dropna()
-        st.dataframe(iny)
-        COL1, COL2, COL3 = st.columns(3, gap="medium")
-        with COL1:
-            fig = px.bar(iny, x=iny["asOfDate"], y=iny["PbRatio"], text_auto=True, width=380)
-            fig.update_traces(textfont_size=16, textposition="outside", cliponaxis=False)
-            fig.update_layout(bargap=0.5)
-            with st.expander("PRICE-BOOK RATIO"):
-                st.write("                                ")
-            st.plotly_chart(fig)
-        with COL2:
-            fig1 = px.bar(iny, x=iny["asOfDate"], y=iny["PeRatio"], text_auto=True, width=380)
-            fig1.update_traces(textfont_size=16, textposition="outside", cliponaxis=False)
-            fig1.update_layout(bargap=0.5)
-            with st.expander("PRICE-EARNINGS RATIO"):
-                st.write("                    ")
-            st.plotly_chart(fig1)
-        with COL3:
-            fig2 = px.bar(iny, x=iny["asOfDate"], y=iny["PsRatio"], text_auto=True, width=400)
-            fig2.update_traces(textfont_size=16, textposition="outside", cliponaxis=False)
-            fig2.update_layout(bargap=0.5)
-            with st.expander("PRICE-SALES RATIO"):
-                st.write("vjnrgvgrovroevnornvpn")
-            st.plotly_chart(fig2)
-
-        from yahoo_fin import stock_info as si
-        #ddta1 = dataa + str(".NS")
-        #F = si.get_analysts_info(ddta1)
-        #st.header("EARNING HISTORY")
-        #st.dataframe(F['Earnings History'])
-
+                 st.dataframe(new_df) 
 
 if selected == "DEALS":
     tab7, tab8, tab9, tab12= st.tabs(['BULK', 'BLOCK', 'INSIDER', 'SHORT SELLING'])
