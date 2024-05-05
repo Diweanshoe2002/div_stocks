@@ -469,47 +469,47 @@ if selected == "STOCK":
             #    fig= px.line(df['stock_close_normalized'])
             #    st.plotly_chart(fig)
 
-             from datetime import date
+            from datetime import date
 
-             start_date = "01-01-2023"
-             today = date.today()
-             end_date = today.strftime("%d-%m-%Y")
+            start_date = "01-01-2023"
+            today = date.today()
+            end_date = today.strftime("%d-%m-%Y")
 
-             from langchain.llms.huggingface_hub import HuggingFaceHub
-             import os
-             from langchain.chains import LLMChain
-             from langchain.prompts import PromptTemplate
+            from langchain.llms.huggingface_hub import HuggingFaceHub
+            import os
+            from langchain.chains import LLMChain
+            from langchain.prompts import PromptTemplate
 
-             HUGGINGFACEHUB_API_TOKEN = "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"
-             os.environ["HUGGINGFACEHUB_API_TOKEN"] = HUGGINGFACEHUB_API_TOKEN
-             from pypdf import PdfReader
-             reader = PdfReader("TCSCONCALL.pdf")
-             for i in range(2, 10):
+            HUGGINGFACEHUB_API_TOKEN = "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"
+            os.environ["HUGGINGFACEHUB_API_TOKEN"] = HUGGINGFACEHUB_API_TOKEN
+            from pypdf import PdfReader
+            reader = PdfReader("TCSCONCALL.pdf")
+            for i in range(2, 10):
                 page = reader.pages[i]
                 text = " "
                 text += page.extract_text()
             
-             repo_id = "HuggingFaceH4/zephyr-7b-beta"
-             llm = HuggingFaceHub(repo_id=repo_id, model_kwargs={"temperature": 0.1, "max_length": 100})
-             template = """Write a summary of the following text delimited by triple backtick as a Financial Analyst
+            repo_id = "HuggingFaceH4/zephyr-7b-beta"
+            llm = HuggingFaceHub(repo_id=repo_id, model_kwargs={"temperature": 0.1, "max_length": 100})
+            template = """Write a summary of the following text delimited by triple backtick as a Financial Analyst
                                 Return your response which covers the key points of the text in bullet points.
                                 ```{text}```
                                BULLET POINT SUMMARY:
                              """
-              prompt = PromptTemplate(template=template, input_variables=["text"])
-              llm_chain = LLMChain(prompt=prompt, llm=llm)
-              summ = (llm_chain.run(text))
-              st.write(sum)
+            prompt = PromptTemplate(template=template, input_variables=["text"])
+            llm_chain = LLMChain(prompt=prompt, llm=llm)
+            summ = (llm_chain.run(text))
+            st.write(sum)
 
-              def display_after_dash(input_string):
+            def display_after_dash(input_string):
                  # Split the string at each occurrence of "-"
                  substrings = input_string.split("-")
 
                  # Join the substrings with newline characters
                   result_string = "\n".join(substrings)
                   return result_string
-        output_str = display_after_dash(summ)
-        st.write(output_str)
+            output_str = display_after_dash(summ)
+            st.write(output_str)
 
 
         if selected1 == "ORDERS":
