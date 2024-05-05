@@ -502,10 +502,7 @@ if selected == "STOCK":
             st.write(sum)
 
             def display_after_dash(input_string):
-                 # Split the string at each occurrence of "-"
-                 substrings = input_string.split("-")
-
-                 # Join the substrings with newline characters
+                  substrings = input_string.split("-")
                   result_string = "\n".join(substrings)
                   return result_string
             output_str = display_after_dash(summ)
