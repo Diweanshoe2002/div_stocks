@@ -477,14 +477,14 @@ if selected == "STOCK":
                      doc=parse_pdf(uploaded_file)
                      llm=ChatGoogleGenerativeAI(model="gemini-pro", verbose=True, temperature=0.1, google_api_key="AIzaSyCmRpFgfYmqR1uzjNLOEuMXEis35ab8C7M")
                      if st.button("Summary"):
-                     template = """Write a summary of the text delimited by triple backtick as a Financial Analyst
-                       Return your response which covers the key points of the text in bullet points.
+                         template = """Write a summary of the text delimited by triple backtick as a Financial Analyst
+                         Return your response which covers the key points of the text in bullet points.
                            ```{text}```
-                       BULLET POINT SUMMARY:"""
-                       prompt = PromptTemplate(template=template, input_variables=["text"])
-                       llm_chain = LLMChain(prompt=prompt, llm=llm)
-                       summ=(llm_chain.invoke(doc))
-                       st.write(summ['text'])        
+                         BULLET POINT SUMMARY:"""
+                         prompt = PromptTemplate(template=template, input_variables=["text"])
+                         llm_chain = LLMChain(prompt=prompt, llm=llm)
+                         summ=(llm_chain.invoke(doc))
+                         st.write(summ['text'])        
 
         p = pd.DataFrame(eq.get_event())
         option = []
