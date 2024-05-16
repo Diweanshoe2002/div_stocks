@@ -11,3 +11,4 @@ datetime
 gspread
 langchain
 langchain-google-genai
+pypdf
