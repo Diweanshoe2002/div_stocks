@@ -448,27 +448,8 @@ if selected == "STOCK":
                 p = mpf.make_addplot(candle, type='scatter', marker='^', markersize=100)
                 fig1 = mpf.plot(df.tail(50), type='candle', addplot= p)
                 st.set_option('deprecation.showPyplotGlobalUse', False)
-                st.pyplot(fig1)
-
-            #response13 = nse_headers_session(f"https://www.nseindia.com/api/historical/securityArchives?symbol={dataa}&dataType=priceVolumeDeliverable&series=ALL")
-            #data = pd.json_normalize(response13['data'])
-            #df = pd.DataFrame(data)
-            #delv = pd.DataFrame(df)
-            #delv.drop(delv.iloc[:, 0:10], inplace=True, axis=1)
-            #delv.drop(delv.iloc[:, 1:4], inplace=True, axis=1)
-            #delv.drop(delv.iloc[:, 2:8], inplace=True, axis=1)
-
-            #fig3 = (px.bar(delv,y="mTIMESTAMP", x=["COP_DELIV_QTY", "CH_TOT_TRADED_QTY"], barmode="group", orientation="h", height=720, width=1080))
-            #fig3.update_layout(barmode="group", xaxis_title=" ", yaxis_title=" ")
-            #st.plotly_chart(fig3)
-
-            #with tab3:
-            #    normalised_start_level = 1000
-            #    df_closed = df['close']
-            #    df['stock_close_normalized'] = df_closed / df_closed[0] * normalised_start_level
-            #    fig= px.line(df['stock_close_normalized'])
-            #    st.plotly_chart(fig)
-
+                st.pyplot(fig1)     
+   
             from datetime import date
 
             start_date = "01-01-2023"
