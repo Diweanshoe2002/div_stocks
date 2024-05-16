@@ -484,17 +484,7 @@ if selected == "STOCK":
                          prompt = PromptTemplate(template=template, input_variables=["text"])
                          llm_chain = LLMChain(prompt=prompt, llm=llm)
                          summ=(llm_chain.invoke(doc))
-                         st.write(summ['text'])        
-
-        p = pd.DataFrame(eq.get_event())
-        option = []
-        option.append(dataa)
-        new_df = p[p['symbol'].isin(option)]
-        with tab6:
-            if len(new_df)==0:
-                st.subheader("NO Corp_Action Found")
-            else:
-                 st.dataframe(new_df) 
+                         st.write(summ['text'])           
 
 if selected == "DEALS":
     tab7, tab8, tab9, tab12= st.tabs(['BULK', 'BLOCK', 'INSIDER', 'SHORT SELLING'])
