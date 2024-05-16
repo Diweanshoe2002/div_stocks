@@ -456,7 +456,7 @@ if selected == "STOCK":
             today = date.today()
             end_date = today.strftime("%d-%m-%Y")
 
-            from  langchain.chains import LLMChain
+            from langchain.chains import LLMChain
             from langchain.prompts import PromptTemplate
             from langchain.text_splitter import RecursiveCharacterTextSplitter
             from langchain_community.vectorstores.faiss import FAISS
