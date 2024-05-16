@@ -450,17 +450,17 @@ if selected == "STOCK":
                 st.set_option('deprecation.showPyplotGlobalUse', False)
                 st.pyplot(fig1)
 
-            response13 = nse_headers_session(f"https://www.nseindia.com/api/historical/securityArchives?symbol={dataa}&dataType=priceVolumeDeliverable&series=ALL")
-            data = pd.json_normalize(response13['data'])
-            df = pd.DataFrame(data)
-            delv = pd.DataFrame(df)
-            delv.drop(delv.iloc[:, 0:10], inplace=True, axis=1)
-            delv.drop(delv.iloc[:, 1:4], inplace=True, axis=1)
-            delv.drop(delv.iloc[:, 2:8], inplace=True, axis=1)
+            #response13 = nse_headers_session(f"https://www.nseindia.com/api/historical/securityArchives?symbol={dataa}&dataType=priceVolumeDeliverable&series=ALL")
+            #data = pd.json_normalize(response13['data'])
+            #df = pd.DataFrame(data)
+            #delv = pd.DataFrame(df)
+            #delv.drop(delv.iloc[:, 0:10], inplace=True, axis=1)
+            #delv.drop(delv.iloc[:, 1:4], inplace=True, axis=1)
+            #delv.drop(delv.iloc[:, 2:8], inplace=True, axis=1)
 
-            fig3 = (px.bar(delv,y="mTIMESTAMP", x=["COP_DELIV_QTY", "CH_TOT_TRADED_QTY"], barmode="group", orientation="h", height=720, width=1080))
-            fig3.update_layout(barmode="group", xaxis_title=" ", yaxis_title=" ")
-            st.plotly_chart(fig3)
+            #fig3 = (px.bar(delv,y="mTIMESTAMP", x=["COP_DELIV_QTY", "CH_TOT_TRADED_QTY"], barmode="group", orientation="h", height=720, width=1080))
+            #fig3.update_layout(barmode="group", xaxis_title=" ", yaxis_title=" ")
+            #st.plotly_chart(fig3)
 
             #with tab3:
             #    normalised_start_level = 1000
@@ -475,100 +475,35 @@ if selected == "STOCK":
             today = date.today()
             end_date = today.strftime("%d-%m-%Y")
 
-            from langchain.llms.huggingface_hub import HuggingFaceHub
-            import os
-            from langchain.chains import LLMChain
+            from  langchain.chains import LLMChain
             from langchain.prompts import PromptTemplate
-
-            HUGGINGFACEHUB_API_TOKEN = "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"
-            os.environ["HUGGINGFACEHUB_API_TOKEN"] = HUGGINGFACEHUB_API_TOKEN
+            from langchain.text_splitter import RecursiveCharacterTextSplitter
+            from langchain_community.vectorstores.faiss import FAISS
+            from langchain_community.embeddings import HuggingFaceEmbeddings
+            from langchain_google_genai import ChatGoogleGenerativeAI
             from pypdf import PdfReader
-            reader = PdfReader("TCSCONCALL.pdf")
-            for i in range(2, 10):
-                page = reader.pages[i]
-                text = " "
-                text += page.extract_text()
-            
-            repo_id = "HuggingFaceH4/zephyr-7b-beta"
-            llm = HuggingFaceHub(repo_id=repo_id, model_kwargs={"temperature": 0.1, "max_length": 100})
-            template = """Write a summary of the following text delimited by triple backtick as a Financial Analyst
-                                Return your response which covers the key points of the text in bullet points.
-                                ```{text}```
-                               BULLET POINT SUMMARY:
-                             """
-            prompt = PromptTemplate(template=template, input_variables=["text"])
-            llm_chain = LLMChain(prompt=prompt, llm=llm)
-            summ = (llm_chain.run(text))
-            st.write(sum)
+            def parse_pdf(file):
+                pdf = PdfReader(file)
+                output = []
+                for page in pdf.pages:
+                   text = page.extract_text()
+                   output.append(text)
+                return output
 
-            def display_after_dash(input_string):
-                  substrings = input_string.split("-")
-                  result_string = "\n".join(substrings)
-                  return result_string
-            output_str = display_after_dash(summ)
-            st.write(output_str)
-
-
-        if selected1 == "ORDERS":
-            option6 = ["received", "Project", "Memorandum of Understanding/Agreements", "wins", "awarding", "orders", "Lowest Bidder"]
-            fr1 = f[f['attchmntText'].str.contains('|'.join(option6), case=False)]
-            if len(fr1) == 0:
-                st.write("No Orders found")
-            else:
-                st.dataframe(fr1)
-                pdf_url4 = fr1.iloc[0]['attchmntFile']
-                def render_pdf_viewer2(pdf_url4):
-                    return f'<iframe src="{pdf_url4}" width="1050" height="600"></iframe>'
-                st.markdown(render_pdf_viewer2(pdf_url4), unsafe_allow_html=True)
-
-        if selected1 == "MONTHLY UPDATE":
-            option7=["Monthly Business Updates"]
-            mbudf = f[f['desc'].isin(option7)]
-            if len(mbudf) == 0:
-                import fitz  # import PyMuPDF
-
-                doc = fitz.open("C:\\Users\\hp\\Downloads\\TCS.pdf")
-                page = doc[7]
-                tabs = page.find_tables()
-                tab = tabs[0]
-                df = tab.to_pandas()
-                pd.set_option('display.max_columns', None)
-                st.dataframe(df)
-                st.write("No Monthly Update found")
-            else:
-              mbudfurl = mbudf.iloc[0]['attchmntFile']
-              st.write(mbudfurl)
-
-              def render_pdf_viewer2(mbudfurl):
-                 return f'<iframe src="{mbudfurl}" width="1050" height="600"></iframe>'
-              st.markdown(render_pdf_viewer2(mbudfurl), unsafe_allow_html=True)
-
-
-
-        st.subheader("COMPANY ANNOUNCEMENT")
-        tab5,tab6 =st.tabs(['PAST', 'UPCOMING'])
-        with tab5:
-            if len(f)==0:
-                st.subheader("NO CORP_Action Found")
-            else:
-                def render_pdf_viewer(pdf_url):
-                    return f'<iframe src="{pdf_url}" width="1050" height="600"></iframe>'
-
-                if "current_row" not in st.session_state:
-                 st.session_state.current_row = 0
-                col98,col99,col100=st.columns(3)
-                with col98:
-                    st.write("PURPOSE")
-                    st.write(f"{f['attchmntText'][st.session_state.current_row]}")
-                with col100:
-                    st.write("DATE")
-                    st.write(f"{f['an_dt'][st.session_state.current_row]}")
-                pdf_url = f['attchmntFile'][st.session_state.current_row]
-                st.markdown(render_pdf_viewer(pdf_url), unsafe_allow_html=True)
-                if st.button("Next"):
-                   st.session_state.current_row += 1
-                   if st.session_state.current_row >= len(f):
-                        st.session_state.current_row = 0  # Loop back to the first row
+            uploaded_file = st.file_uploader("Upload a pdf, docx, or txt file",type=["pdf", "docx", "txt"], help="Scanned documents are not supported yet! ")
+            if uploaded_file is not None:
+                if uploaded_file.name.endswith(".pdf"):
+                     doc=parse_pdf(uploaded_file)
+                     llm=ChatGoogleGenerativeAI(model="gemini-pro", verbose=True, temperature=0.1, google_api_key="AIzaSyCmRpFgfYmqR1uzjNLOEuMXEis35ab8C7M")
+                     if st.button("Summary"):
+                     template = """Write a summary of the text delimited by triple backtick as a Financial Analyst
+                       Return your response which covers the key points of the text in bullet points.
+                           ```{text}```
+                       BULLET POINT SUMMARY:"""
+                       prompt = PromptTemplate(template=template, input_variables=["text"])
+                       llm_chain = LLMChain(prompt=prompt, llm=llm)
+                       summ=(llm_chain.invoke(doc))
+                       st.write(summ['text'])        
 
         p = pd.DataFrame(eq.get_event())
         option = []
