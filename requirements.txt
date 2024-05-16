@@ -9,3 +9,5 @@ matplotlib
 mplfinance
 datetime
 gspread
+langchain
+langchain-google-genai
