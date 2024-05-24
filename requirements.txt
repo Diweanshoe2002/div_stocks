@@ -12,3 +12,4 @@ gspread
 langchain
 langchain-google-genai
 pypdf
+langchain_community
