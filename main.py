@@ -248,7 +248,7 @@ if selected == "HOMEPAGE":
           fifty_two_week_high = historical_data['High'].max()
           fifty_two_week_low = historical_data['Low'].min()
           df_week_highs_lows = df_week_highs_lows._append(
-           {'Ticker': ticker, '52_Week_High': fifty_two_week_high, '52_Week_Low': fifty_two_week_low}, ignore_index=True))
+           {'Ticker': ticker, '52_Week_High': fifty_two_week_high, '52_Week_Low': fifty_two_week_low}, ignore_index=True)
           
        df_week_highs_lows['Ticker'] = df_week_highs_lows['Ticker'].str.replace('.NS', '')
        df1=df[df['SYMBOL'].isin(list)]
