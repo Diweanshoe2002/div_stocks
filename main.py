@@ -196,10 +196,10 @@ if selected == "HOMEPAGE":
 
     col3, col4 = st.columns(2)
     with col3:
-       gc = gspread.service_account(filename='C:\\Users\\hp\\PycharmProjects\\PYFINPROJECT\\service_account.json')
-       sheet_id = "1T79XwzC8sG7pMHaNXYug9BJ9uwseBtLbrLM0G4seBAc"
-       spreadsheet_id =sheet_id
-       worksheet12 = gc.open_by_key(spreadsheet_id).worksheet('Sheet12')
+       #gc = gspread.service_account(filename='C:\\Users\\hp\\PycharmProjects\\PYFINPROJECT\\service_account.json')
+       #sheet_id = "1T79XwzC8sG7pMHaNXYug9BJ9uwseBtLbrLM0G4seBAc"
+       #spreadsheet_id =sheet_id
+       #worksheet12 = gc.open_by_key(spreadsheet_id).worksheet('Sheet12')
        def generate_date_string():
           now = datetime.datetime.now()
           if now.weekday() == 5:
