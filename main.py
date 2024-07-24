@@ -4,7 +4,6 @@ from streamlit_option_menu import option_menu
 import streamlit as st
 from yfinance import Ticker
 import gspread
-import datetime
 from nsedt import equity as eq
 import pandas as pd
 import pandas_ta as ta
@@ -214,7 +213,6 @@ if selected == "HOMEPAGE":
                   date = now - datetime.timedelta(days=1)
           date_string = date.strftime('%d%m%Y')
           return date_string
-
        date_variable = generate_date_string()
        url =f"https://archives.nseindia.com/products/content/sec_bhavdata_full_{date_variable}.csv"
        response = requests.get(url)
