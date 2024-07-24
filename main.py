@@ -196,54 +196,120 @@ if selected == "HOMEPAGE":
 
     col3, col4 = st.columns(2)
     with col3:
-        def load_lottieurl_1(url: str):
-            r = requests.get(url)
-            if r.status_code != 200:
-                return None
-            return r.json()
-        url = load_lottieurl_1("https://assets2.lottiefiles.com/private_files/lf30_1l8zkdv6.json")
-        st_lottie(url, height=100)
+       gc = gspread.service_account(filename='C:\\Users\\hp\\PycharmProjects\\PYFINPROJECT\\service_account.json')
+       sheet_id = "1T79XwzC8sG7pMHaNXYug9BJ9uwseBtLbrLM0G4seBAc"
+       spreadsheet_id =sheet_id
+       worksheet12 = gc.open_by_key(spreadsheet_id).worksheet('Sheet12')
+       def generate_date_string():
+          now = datetime.datetime.now()
+          if now.weekday() == 5:
+             date = now - datetime.timedelta(days=1)
+          elif now.weekday() == 6:
+              date = now - datetime.timedelta(days=2)
+          else:
+               if now.hour >= 18 and now.minute >= 30:
+                    date = now
+               else:
+                  date = now - datetime.timedelta(days=1)
+          date_string = date.strftime('%d%m%Y')
+          return date_string
 
-        st.header(" Top gainers today!")
-        url = "https://archives.nseindia.com/products/content/sec_bhavdata_full_07022024.csv"
-        response = requests.get(url)
-        c = pd.read_csv(StringIO(response.text))
-        df = pd.DataFrame(c)
-        df = df.drop([" DELIV_PER", " TURNOVER_LACS", " NO_OF_TRADES", " DELIV_QTY", " OPEN_PRICE", " AVG_PRICE",
+       date_variable = generate_date_string()
+       url =f"https://archives.nseindia.com/products/content/sec_bhavdata_full_{date_variable}.csv"
+       response = requests.get(url)
+       c = pd.read_csv(StringIO(response.text))
+       df = pd.DataFrame(c)
+       df = df.drop([" TURNOVER_LACS", " NO_OF_TRADES", " DELIV_QTY", " OPEN_PRICE", " AVG_PRICE",
                       " TTL_TRD_QNTY"], axis=1)
-        df['CHANGE'] = df.apply(lambda x: (x[' CLOSE_PRICE'] - x[' PREV_CLOSE']), axis=1)
-        df['PCHANGE'] = df.apply(lambda x: (((x[' CLOSE_PRICE'] - x[' PREV_CLOSE']) / x[' CLOSE_PRICE']) * 100), axis=1)
-        df['PCHANGE'] = df['PCHANGE'].apply(lambda x: round(x, 2))
+       df['CHANGE'] = df.apply(lambda x: (x[' CLOSE_PRICE'] - x[' PREV_CLOSE']), axis=1)
+       df['PCHANGE'] = df.apply(lambda x: (((x[' CLOSE_PRICE'] - x[' PREV_CLOSE']) / x[' CLOSE_PRICE']) * 100), axis=1)
+       df['PCHANGE'] = df['PCHANGE'].apply(lambda x: round(x, 2))
+       df=df.drop_duplicates(["SYMBOL"])
 
+       indexnam=['NIFTYIT','NIFTYMEDIA','NIFTYREALTY','NIFTYPHARMA','NIFTYPSE','NIFTYMETAL', 'NIFTYAUTO', 'NIFTYFMCG', 'NIFTY50', "NIFTYNEXT50", "NIFTY100", "NIFTY200", "NIFTY500", "NIFTYSMALLCAP50", "NIFTYSMALLCAP100", "NIFTYSMALLCAP250", "NIFTYMIDCAP50", "NIFTYMIDCAP100", "NIFTYMIDCAP50"]
+       opt=st.selectbox("select index", indexnam)
+       indexnaml=opt.lower( )
+       data = pd.read_csv(f"https://archives.nseindia.com/content/indices/ind_{indexnaml}list.csv")
+       datadf = pd.DataFrame(data)
+       list=(datadf['Symbol'].values.tolist())
+       list1 = [symbol + ".NS" for symbol in list]
+       df_week_highs_lows = pd.DataFrame(columns=['Ticker', '52_Week_High', '52_Week_Low'])
+       for ticker in list1:
+          # Fetch historical data from Yahoo Finance
+          stock_data = yf.Ticker(ticker)
+          historical_data = stock_data.history(period="1y")
+          historical_data['1week_performance'] = historical_data['Close'].pct_change(periods=7) * 100
+          historical_data['1week_performance']=historical_data['1week_performance'].round(4)
+          historical_data['1month_performance'] = historical_data['Close'].pct_change(periods=21) * 100
+          historical_data['3month_performance'] = historical_data['Close'].pct_change(periods=63) * 100
+          historical_data['20-day SMA'] = historical_data['Close'].rolling(window=20).mean()
+          historical_data['50-day SMA'] = historical_data['Close'].rolling(window=50).mean()
+          historical_data['200-day SMA'] = historical_data['Close'].rolling(window=200).mean()
+          fifty_two_week_high = historical_data['High'].max()
+          fifty_two_week_low = historical_data['Low'].min()
+          df_week_highs_lows = df_week_highs_lows._append(
+           {'Ticker': ticker, '52_Week_High': fifty_two_week_high, '52_Week_Low': fifty_two_week_low}, ignore_index=True
+          
+       df_week_highs_lows['Ticker'] = df_week_highs_lows['Ticker'].str.replace('.NS', '')
+       df1=df[df['SYMBOL'].isin(list)]
+       df2=df1[df1['SYMBOL'].isin(df_week_highs_lows['Ticker'])]
+       df2= pd.merge(df2,df_week_highs_lows[["52_Week_High","52_Week_Low"]], on=df2['SYMBOL'], how='outer')
+       df2=df2.drop("key_0",axis=1)
+       df2['Distance_%HIGH'] = ((df2['52_Week_High'] - df2[' CLOSE_PRICE']) / df2['52_Week_High']) * 100
+       total_stocks = len(df2)
+       col1,col2=st.columns(2)
+       with col1:
+            def load_lottieurl_1(url: str):
+                 r = requests.get(url)
+                 if r.status_code != 200:
+                        return None
+                 return r.json()
+            url = load_lottieurl_1("https://assets2.lottiefiles.com/private_files/lf30_1l8zkdv6.json")
+            st_lottie(url, height=100)
+            st.header(" Top gainers today!")
+            st.dataframe(df2.sort_values(by=['PCHANGE'], ascending=False))#for top gainer
+       with col2:
+            def load_lottieurl_2(url: str):
+                r = requests.get(url)
+                if r.status_code != 200:
+                           return None
+                return r.json()
+            url = load_lottieurl_2("https://assets8.lottiefiles.com/private_files/lf30_290nyta6.json")
+            st_lottie(url, height=100)
+            st.header("Top losers today!")
+            st.dataframe(df2.sort_values(by=['PCHANGE'], ascending=True)) 
+       list2=df2["SYMBOL"].values.tolist()
+       list3 = [symbol + ".NS" for symbol in list2]
+       st.caption("Stocks Near 52 Week High")
+       filtered_stocks = df2[df2['Distance_%HIGH'] <= 7]
+       num_filtered_stocks = len(filtered_stocks)
+       percentage_near_52_week_high = (num_filtered_stocks / total_stocks) * 100 
+       filtered_stock_names = filtered_stocks['SYMBOL'].tolist()
+       st.write("**STOCKS** **NEAR** **52-WEEK** **HIGH**:", num_filtered_stocks)
+       st.write("", filtered_stock_names)
+       st.write("**%** **STOCKS** **NEAR** **52-WEEK** **HIGH**:",percentage_near_52_week_high)
+       for tick in list3:
+           with col1:
+            intraday_data={}
+            stock=yf.Ticker(tick)
+            data=stock.history(interval="15m")
+            intraday_data[tick]=data
+            intraday_df=pd.concat(intraday_data.values(),keys=intraday_data.keys())
+            fig = go.Figure(data=[go.Candlestick(x=[1,2,3,4,5,6,7,8,9,0,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40],
+                                         open=intraday_df['Open'],
+                                         high=intraday_df['High'],
+                                         low=intraday_df['Low'],
+                                         close=intraday_df['Close'])])
+            fig.update_xaxes(rangeslider_visible=False)
+            fig.update_layout(autosize=False, width=400, height=350, showlegend=False)
+            fig.update_layout(title=f'{tick}',
+                      xaxis_rangeslider_visible=False,
+                      autosize=False,
+                      width=400,
+                      height=350,
+                      showlegend=False)
 
-        indexnam=['NIFTYMETAL', 'NIFTYAUTO', 'NIFTYFMCG', 'NIFTY50', "NIFTYNEXT50", "NIFTY100", "NIFTY200", "NIFTY500", "NIFTYSMALLCAP50", "NIFTYSMALLCAP100", "NIFTYSMALLCAP250", "NIFTYMIDCAP50", "NIFTYMIDCAP100", "NIFTYMIDCAP50"]
-        opt=st.selectbox("select index", indexnam)
-        indexnaml=opt.lower( )
-        data = pd.read_csv(f"https://archives.nseindia.com/content/indices/ind_{indexnaml}list.csv")
-        datadf = pd.DataFrame(data)
-        list=(datadf['Symbol'].values.tolist())
-        df1=df[df['SYMBOL'].isin(list)]
-        st.dataframe(df1.sort_values(by=['PCHANGE'], ascending=False))
-
-
-
-    with col4:
-        def load_lottieurl_2(url: str):
-            r = requests.get(url)
-            if r.status_code != 200:
-                return None
-            return r.json()
-        url = load_lottieurl_2("https://assets8.lottiefiles.com/private_files/lf30_290nyta6.json")
-        st_lottie(url, height=100)
-        st.header("Top losers today!")
-        lindexnam = ['NIFTY50', "NIFTYNEXT50", "NIFTY100", "NIFTY200", "NIFTY500", "NIFTYSMALLCAP50", "NIFTYSMALLCAP100", "NIFTYSMALLCAP250", "NIFTYMIDCAP50", "NIFTYMIDCAP100", "NIFTYMIDCAP50"]
-        lopt = st.selectbox("Select Index", lindexnam)
-        lindexnaml = lopt.lower()
-        data = pd.read_csv(f"https://archives.nseindia.com/content/indices/ind_{lindexnaml}list.csv")
-        datadf = pd.DataFrame(data)
-        list = (datadf['Symbol'].values.tolist())
-        df1 = df[df['SYMBOL'].isin(list)]
-        st.dataframe(df1.sort_values(by=['PCHANGE'], ascending=True))
+            st.plotly_chart(fig)
 
 
     fig = plt.figure()
