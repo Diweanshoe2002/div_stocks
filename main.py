@@ -195,25 +195,23 @@ if selected == "HOMEPAGE":
     actvdf1.drop(actvdf1.iloc[:, 1:5], inplace=True, axis=1)
     st.dataframe(actvdf1)
 
-    col3, col4 = st.columns(2)
-    with col3:
        #gc = gspread.service_account(filename='C:\\Users\\hp\\PycharmProjects\\PYFINPROJECT\\service_account.json')
        #sheet_id = "1T79XwzC8sG7pMHaNXYug9BJ9uwseBtLbrLM0G4seBAc"
        #spreadsheet_id =sheet_id
        #worksheet12 = gc.open_by_key(spreadsheet_id).worksheet('Sheet12')
-       def generate_date_string():
-          now = datetime.datetime.now()
-          if now.weekday() == 5:
+    def generate_date_string():
+        now = datetime.datetime.now()
+        if now.weekday() == 5:
              date = now - datetime.timedelta(days=1)
-          elif now.weekday() == 6:
+        elif now.weekday() == 6:
               date = now - datetime.timedelta(days=2)
-          else:
+        else:
                if now.hour >= 18 and now.minute >= 30:
                     date = now
                else:
                   date = now - datetime.timedelta(days=1)
-          date_string = date.strftime('%d%m%Y')
-          return date_string
+        date_string = date.strftime('%d%m%Y')
+        return date_string
        date_variable = generate_date_string()
        url =f"https://archives.nseindia.com/products/content/sec_bhavdata_full_{date_variable}.csv"
        response = requests.get(url)
