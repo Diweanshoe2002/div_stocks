@@ -212,27 +212,27 @@ if selected == "HOMEPAGE":
                   date = now - datetime.timedelta(days=1)
         date_string = date.strftime('%d%m%Y')
         return date_string
-       date_variable = generate_date_string()
-       url =f"https://archives.nseindia.com/products/content/sec_bhavdata_full_{date_variable}.csv"
-       response = requests.get(url)
-       c = pd.read_csv(StringIO(response.text))
-       df = pd.DataFrame(c)
-       df = df.drop([" TURNOVER_LACS", " NO_OF_TRADES", " DELIV_QTY", " OPEN_PRICE", " AVG_PRICE",
+    date_variable = generate_date_string()
+    url =f"https://archives.nseindia.com/products/content/sec_bhavdata_full_{date_variable}.csv"
+    response = requests.get(url)
+    c = pd.read_csv(StringIO(response.text))
+    df = pd.DataFrame(c)
+    df = df.drop([" TURNOVER_LACS", " NO_OF_TRADES", " DELIV_QTY", " OPEN_PRICE", " AVG_PRICE",
                       " TTL_TRD_QNTY"], axis=1)
-       df['CHANGE'] = df.apply(lambda x: (x[' CLOSE_PRICE'] - x[' PREV_CLOSE']), axis=1)
-       df['PCHANGE'] = df.apply(lambda x: (((x[' CLOSE_PRICE'] - x[' PREV_CLOSE']) / x[' CLOSE_PRICE']) * 100), axis=1)
-       df['PCHANGE'] = df['PCHANGE'].apply(lambda x: round(x, 2))
-       df=df.drop_duplicates(["SYMBOL"])
+    df['CHANGE'] = df.apply(lambda x: (x[' CLOSE_PRICE'] - x[' PREV_CLOSE']), axis=1)
+    df['PCHANGE'] = df.apply(lambda x: (((x[' CLOSE_PRICE'] - x[' PREV_CLOSE']) / x[' CLOSE_PRICE']) * 100), axis=1)
+    df['PCHANGE'] = df['PCHANGE'].apply(lambda x: round(x, 2))
+    df=df.drop_duplicates(["SYMBOL"])
 
-       indexnam=['NIFTYIT','NIFTYMEDIA','NIFTYREALTY','NIFTYPHARMA','NIFTYPSE','NIFTYMETAL', 'NIFTYAUTO', 'NIFTYFMCG', 'NIFTY50', "NIFTYNEXT50", "NIFTY100", "NIFTY200", "NIFTY500", "NIFTYSMALLCAP50", "NIFTYSMALLCAP100", "NIFTYSMALLCAP250", "NIFTYMIDCAP50", "NIFTYMIDCAP100", "NIFTYMIDCAP50"]
-       opt=st.selectbox("select index", indexnam)
-       indexnaml=opt.lower( )
-       data = pd.read_csv(f"https://archives.nseindia.com/content/indices/ind_{indexnaml}list.csv")
-       datadf = pd.DataFrame(data)
-       list=(datadf['Symbol'].values.tolist())
-       list1 = [symbol + ".NS" for symbol in list]
-       df_week_highs_lows = pd.DataFrame(columns=['Ticker', '52_Week_High', '52_Week_Low'])
-       for ticker in list1:
+    indexnam=['NIFTYIT','NIFTYMEDIA','NIFTYREALTY','NIFTYPHARMA','NIFTYPSE','NIFTYMETAL', 'NIFTYAUTO', 'NIFTYFMCG', 'NIFTY50', "NIFTYNEXT50", "NIFTY100", "NIFTY200", "NIFTY500", "NIFTYSMALLCAP50", "NIFTYSMALLCAP100", "NIFTYSMALLCAP250", "NIFTYMIDCAP50", "NIFTYMIDCAP100", "NIFTYMIDCAP50"]
+    opt=st.selectbox("select index", indexnam)
+    indexnaml=opt.lower( )
+    data = pd.read_csv(f"https://archives.nseindia.com/content/indices/ind_{indexnaml}list.csv")
+    datadf = pd.DataFrame(data)
+    list=(datadf['Symbol'].values.tolist())
+    list1 = [symbol + ".NS" for symbol in list]
+    df_week_highs_lows = pd.DataFrame(columns=['Ticker', '52_Week_High', '52_Week_Low'])
+    for ticker in list1:
           # Fetch historical data from Yahoo Finance
           stock_data = yf.Ticker(ticker)
           historical_data = stock_data.history(period="1y")
@@ -248,15 +248,15 @@ if selected == "HOMEPAGE":
           df_week_highs_lows = df_week_highs_lows._append(
            {'Ticker': ticker, '52_Week_High': fifty_two_week_high, '52_Week_Low': fifty_two_week_low}, ignore_index=True)
           
-       df_week_highs_lows['Ticker'] = df_week_highs_lows['Ticker'].str.replace('.NS', '')
-       df1=df[df['SYMBOL'].isin(list)]
-       df2=df1[df1['SYMBOL'].isin(df_week_highs_lows['Ticker'])]
-       df2= pd.merge(df2,df_week_highs_lows[["52_Week_High","52_Week_Low"]], on=df2['SYMBOL'], how='outer')
-       df2=df2.drop("key_0",axis=1)
-       df2['Distance_%HIGH'] = ((df2['52_Week_High'] - df2[' CLOSE_PRICE']) / df2['52_Week_High']) * 100
-       total_stocks = len(df2)
-       col1,col2=st.columns(2)
-       with col1:
+    df_week_highs_lows['Ticker'] = df_week_highs_lows['Ticker'].str.replace('.NS', '')
+    df1=df[df['SYMBOL'].isin(list)]
+    df2=df1[df1['SYMBOL'].isin(df_week_highs_lows['Ticker'])]
+    df2= pd.merge(df2,df_week_highs_lows[["52_Week_High","52_Week_Low"]], on=df2['SYMBOL'], how='outer')
+    df2=df2.drop("key_0",axis=1)
+    df2['Distance_%HIGH'] = ((df2['52_Week_High'] - df2[' CLOSE_PRICE']) / df2['52_Week_High']) * 100
+    total_stocks = len(df2)
+    col1,col2=st.columns(2)
+    with col1:
             def load_lottieurl_1(url: str):
                  r = requests.get(url)
                  if r.status_code != 200:
@@ -266,7 +266,7 @@ if selected == "HOMEPAGE":
             st_lottie(url, height=100)
             st.header(" Top gainers today!")
             st.dataframe(df2.sort_values(by=['PCHANGE'], ascending=False))#for top gainer
-       with col2:
+    with col2:
             def load_lottieurl_2(url: str):
                 r = requests.get(url)
                 if r.status_code != 200:
@@ -276,17 +276,17 @@ if selected == "HOMEPAGE":
             st_lottie(url, height=100)
             st.header("Top losers today!")
             st.dataframe(df2.sort_values(by=['PCHANGE'], ascending=True)) 
-       list2=df2["SYMBOL"].values.tolist()
-       list3 = [symbol + ".NS" for symbol in list2]
-       st.caption("Stocks Near 52 Week High")
-       filtered_stocks = df2[df2['Distance_%HIGH'] <= 7]
-       num_filtered_stocks = len(filtered_stocks)
-       percentage_near_52_week_high = (num_filtered_stocks / total_stocks) * 100 
-       filtered_stock_names = filtered_stocks['SYMBOL'].tolist()
-       st.write("**STOCKS** **NEAR** **52-WEEK** **HIGH**:", num_filtered_stocks)
-       st.write("", filtered_stock_names)
-       st.write("**%** **STOCKS** **NEAR** **52-WEEK** **HIGH**:",percentage_near_52_week_high)
-       for tick in list3:
+    list2=df2["SYMBOL"].values.tolist()
+    list3 = [symbol + ".NS" for symbol in list2]
+    st.caption("Stocks Near 52 Week High")
+    filtered_stocks = df2[df2['Distance_%HIGH'] <= 7]
+    num_filtered_stocks = len(filtered_stocks)
+    percentage_near_52_week_high = (num_filtered_stocks / total_stocks) * 100 
+    filtered_stock_names = filtered_stocks['SYMBOL'].tolist()
+    st.write("**STOCKS** **NEAR** **52-WEEK** **HIGH**:", num_filtered_stocks)
+    st.write("", filtered_stock_names)
+    st.write("**%** **STOCKS** **NEAR** **52-WEEK** **HIGH**:",percentage_near_52_week_high)
+    for tick in list3:
            with col1:
             intraday_data={}
             stock=yf.Ticker(tick)
