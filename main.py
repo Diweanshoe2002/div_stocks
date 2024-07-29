@@ -201,7 +201,7 @@ if selected == "HOMEPAGE":
        #spreadsheet_id =sheet_id
        #worksheet12 = gc.open_by_key(spreadsheet_id).worksheet('Sheet12')
        def generate_date_string():
-          now = datetime.now()
+          now = datetime.datetime.now()
           if now.weekday() == 5:
              date = now - datetime.timedelta(days=1)
           elif now.weekday() == 6:
