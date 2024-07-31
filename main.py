@@ -508,7 +508,7 @@ if selected == "STOCK":
                 candle = np.where(df[f'{op}'].tail(50) == 1, (0.97 * df.tail(50).low), np.nan)
                 p = mpf.make_addplot(candle, type='scatter', marker='^', markersize=100)
                 fig1 = mpf.plot(df.tail(50), type='candle', addplot= p)
-                st.set_option('deprecation.showPyplotGlobalUse', False)
+                #st.set_option('deprecation.showPyplotGlobalUse', False)
                 st.pyplot(fig1)     
    
             from datetime import date
