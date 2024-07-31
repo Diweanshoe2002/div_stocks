@@ -208,7 +208,8 @@ if selected == "HOMEPAGE":
                   date = now - datetime.timedelta(days=1)
          date_string = date.strftime('%d%m%Y')
          return date_string
-    date_variable = generate_date_string()
+      
+    date_variable = generate_date_string( )
     url =f"https://archives.nseindia.com/products/content/sec_bhavdata_full_{date_variable}.csv"
     response = requests.get(url)
     c = pd.read_csv(StringIO(response.text))
