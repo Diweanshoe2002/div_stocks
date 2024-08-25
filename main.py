@@ -309,14 +309,15 @@ if selected == "HOMEPAGE":
         return pd.concat(intraday_data.values(), keys=intraday_data.keys())
 
     intraday_df = fetch_intraday_data(list3)
+    col45,col46=st.coloums(2)
     for i, (tick, data) in enumerate(intraday_df.groupby(level=0)):
          if i % 2 == 0:
-             col = col1
+             col = col45
          else:
-             col = col2
-    fig0 = create_candlestick_chart(data)
-    col.plotly_chart(fig0, use_container_width=True)
-    col.dataframe(df2.loc[[i]])
+             col = col46
+    fig = create_candlestick_chart(data)
+    col.plotly_chart(fig, title=tick)
+    col.table(df2.loc[i:i:])
 
 
     fig = plt.figure()
