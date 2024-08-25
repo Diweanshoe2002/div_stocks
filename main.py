@@ -309,7 +309,7 @@ if selected == "HOMEPAGE":
         return pd.concat(intraday_data.values(), keys=intraday_data.keys())
 
     intraday_df = fetch_intraday_data(list3)
-    col45,col46=st.coloums(2)
+    col45,col46=st.coloumns(2)
     for i, (tick, data) in enumerate(intraday_df.groupby(level=0)):
          if i % 2 == 0:
              col = col45
