@@ -306,7 +306,7 @@ if selected == "HOMEPAGE":
             stock = yf.Ticker(tick)
             data = stock.history(interval="15m")
             intraday_data[tick] = data
-            return pd.concat(intraday_data.values(), keys=intraday_data.keys())
+        return pd.concat(intraday_data.values(), keys=intraday_data.keys())
 
     intraday_df = fetch_intraday_data(list3)
     col1, col2 = st.columns(2)
