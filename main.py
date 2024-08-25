@@ -284,21 +284,21 @@ if selected == "HOMEPAGE":
     st.write("", filtered_stock_names)
     st.write("**%** **STOCKS** **NEAR** **52-WEEK** **HIGH**:",percentage_near_52_week_high)
     def create_candlestick_chart(data):
-    fig = go.Figure(data=[go.Candlestick(x=[1,2,3,4,5,6,7,8,9,0,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40],
+        fig = go.Figure(data=[go.Candlestick(x=[1,2,3,4,5,6,7,8,9,0,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40],
                                        open=data['Open'],
                                        high=data['High'],
                                        low=data['Low'],
                                        close=data['Close'])])
-    fig.update_xaxes(rangeslider_visible=False)
-    fig.update_layout(autosize=False, width=400, height=350, showlegend=False)
-    fig.update_layout(title=f'{tick}',
+        fig.update_xaxes(rangeslider_visible=False)
+        fig.update_layout(autosize=False, width=400, height=350, showlegend=False)
+        fig.update_layout(title=f'{tick}',
                       xaxis_rangeslider_visible=False,
                       autosize=False,
                       width=400,
                       height=350,
                       showlegend=False)
 
-    return fig
+        return fig
 
     def fetch_intraday_data(tickers):
         intraday_data = {}
