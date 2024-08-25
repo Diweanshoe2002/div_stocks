@@ -283,28 +283,41 @@ if selected == "HOMEPAGE":
     st.write("**STOCKS** **NEAR** **52-WEEK** **HIGH**:", num_filtered_stocks)
     st.write("", filtered_stock_names)
     st.write("**%** **STOCKS** **NEAR** **52-WEEK** **HIGH**:",percentage_near_52_week_high)
-    for tick in list3:
-           with col1:
-            intraday_data={}
-            stock=yf.Ticker(tick)
-            data=stock.history(interval="15m")
-            intraday_data[tick]=data
-            intraday_df=pd.concat(intraday_data.values(),keys=intraday_data.keys())
-            fig = go.Figure(data=[go.Candlestick(x=[1,2,3,4,5,6,7,8,9,0,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40],
-                                         open=intraday_df['Open'],
-                                         high=intraday_df['High'],
-                                         low=intraday_df['Low'],
-                                         close=intraday_df['Close'])])
-            fig.update_xaxes(rangeslider_visible=False)
-            fig.update_layout(autosize=False, width=400, height=350, showlegend=False)
-            fig.update_layout(title=f'{tick}',
+    def create_candlestick_chart(data):
+    fig = go.Figure(data=[go.Candlestick(x=[1,2,3,4,5,6,7,8,9,0,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40],
+                                       open=data['Open'],
+                                       high=data['High'],
+                                       low=data['Low'],
+                                       close=data['Close'])])
+    fig.update_xaxes(rangeslider_visible=False)
+    fig.update_layout(autosize=False, width=400, height=350, showlegend=False)
+    fig.update_layout(title=f'{tick}',
                       xaxis_rangeslider_visible=False,
                       autosize=False,
                       width=400,
                       height=350,
                       showlegend=False)
 
-            st.plotly_chart(fig)
+    return fig
+
+    def fetch_intraday_data(tickers):
+        intraday_data = {}
+        for tick in tickers:
+            stock = yf.Ticker(tick)
+            data = stock.history(interval="15m")
+            intraday_data[tick] = data
+            return pd.concat(intraday_data.values(), keys=intraday_data.keys())
+
+    intraday_df = fetch_intraday_data(list3)
+    col1, col2 = st.columns(2)
+    for i, (tick, data) in enumerate(intraday_df.groupby(level=0)):
+         if i % 2 == 0:
+             col = col1
+         else:
+             col = col2
+    fig = create_candlestick_chart(data)
+    col.plotly_chart(fig, title=tick)
+    col.table(df2.loc[i:i:])
 
 
     fig = plt.figure()
