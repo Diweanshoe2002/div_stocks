@@ -315,8 +315,8 @@ if selected == "HOMEPAGE":
          else:
              col = col2
     fig0 = create_candlestick_chart(data)
-    col.plotly_chart(fig0, title=tick)
-    col.table(df2.loc[i:i:])
+    col.plotly_chart(fig0, use_container_width=True)
+    col.dataframe(df2.loc[[i]])
 
 
     fig = plt.figure()
