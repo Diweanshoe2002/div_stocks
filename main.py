@@ -214,8 +214,8 @@ if selected == "HOMEPAGE":
     response = requests.get(url)
     c = pd.read_csv(StringIO(response.text))
     df = pd.DataFrame(c)
-    df = df.drop([" TURNOVER_LACS", " NO_OF_TRADES", " DELIV_QTY", " OPEN_PRICE", " AVG_PRICE",
-                      " TTL_TRD_QNTY"], axis=1)
+    #df = df.drop([" TURNOVER_LACS", " NO_OF_TRADES", " DELIV_QTY", " OPEN_PRICE", " AVG_PRICE",
+    #                  " TTL_TRD_QNTY"], axis=1)
     df['CHANGE'] = df.apply(lambda x: (x[' CLOSE_PRICE'] - x[' PREV_CLOSE']), axis=1)
     df['PCHANGE'] = df.apply(lambda x: (((x[' CLOSE_PRICE'] - x[' PREV_CLOSE']) / x[' CLOSE_PRICE']) * 100), axis=1)
     df['PCHANGE'] = df['PCHANGE'].apply(lambda x: round(x, 2))
