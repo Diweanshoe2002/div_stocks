@@ -59,7 +59,7 @@ def fetch_and_store_nse_data(symbol="BPCL", corp_type="announcement", market="eq
 fetch_and_store_nse_data()
 
 # Retrieve and print stored data (for verification)
-stored_data = r.get("nse:VBL:announcement:equities")
+stored_data = r.get("nse:BPCL:announcement:equities")
 if stored_data:
     st.write("Retrieved data from Redis:")
     st.write(json.loads(stored_data))
