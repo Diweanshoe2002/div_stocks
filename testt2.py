@@ -1,6 +1,23 @@
-from st_redis_connection import RedisConnection
+import redis
+import requests
+import json
+import streamlit as st
+# Redis connection
+r = redis.Redis(
+    host='redis-11380.c239.us-east-1-2.ec2.redns.redis-cloud.com',
+    port=11380,
+    password='bwfZX0ImvrVqoD4uKh8gPfD2vIJSBTvx',
+    decode_responses=True
+)
 
-r = st.connection('', type=RedisConnection, host='redis-11380.c239.us-east-1-2.ec2.redns.redis-cloud.com', port=11380, password='bwfZX0ImvrVqoD4uKh8gPfD2vIJSBTvx')
+# Test the Redis connection
+try:
+    r.ping()
+    st.write("Connected to Redis successfully!")
+except redis.ConnectionError:
+    st.write("Failed to connect to Redis.")
+    exit(1)
+
 def nse_headers_session(url):
     baseurl = "https://www.nseindia.com/"
     headers = {
@@ -31,7 +48,7 @@ def fetch_and_store_nse_data(symbol="VBL", corp_type="announcement", market="equ
         if 'announcements' in data:
             for idx, announcement in enumerate(data['announcements']):
                 announcement_key = f"{key}:announcement:{idx}"
-                r._instance.set(announcement_key, json.dumps(announcement))
+                r.set(announcement_key, json.dumps(announcement))
                 print(f"Stored announcement with key: {announcement_key}")
 
     except Exception as e:
@@ -42,9 +59,9 @@ def fetch_and_store_nse_data(symbol="VBL", corp_type="announcement", market="equ
 fetch_and_store_nse_data()
 
 # Retrieve and print stored data (for verification)
-stored_data = r._instance.get("nse:VBL:announcement:equities")
+stored_data = r.get("nse:VBL:announcement:equities")
 if stored_data:
-    print("Retrieved data from Redis:")
+    st.write("Retrieved data from Redis:")
     st.write(json.loads(stored_data))
 else:
     print("No data found in Redis.")
