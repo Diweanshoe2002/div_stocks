@@ -62,6 +62,6 @@ fetch_and_store_nse_data()
 stored_data = r.get("nse:AXISBANK:announcement:equities")
 if stored_data:
     st.write("Retrieved data from Redis:")
-    st.write(json.loads(stored_data))
+    st.dataframe(stored_data)
 else:
     print("No data found in Redis.")
