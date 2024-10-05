@@ -33,7 +33,7 @@ def nse_headers_session(url):
     return raw
 
 
-def fetch_and_store_nse_data(symbol="VBL", corp_type="announcement", market="equities"):
+def fetch_and_store_nse_data(symbol="BPCL", corp_type="announcement", market="equities"):
     url = f"https://www.nseindia.com/api/corp-info?symbol={symbol}&corpType={corp_type}&market={market}"
 
     try:
