@@ -33,7 +33,7 @@ def nse_headers_session(url):
     return raw
 
 
-def fetch_and_store_nse_data(symbol="AXISBANK", corp_type="announcement", market="equities"):
+def fetch_and_store_nse_data(symbol="POCL", corp_type="announcement", market="equities"):
     url = f"https://www.nseindia.com/api/corp-info?symbol={symbol}&corpType={corp_type}&market={market}"
 
     try:
@@ -59,7 +59,7 @@ def fetch_and_store_nse_data(symbol="AXISBANK", corp_type="announcement", market
 fetch_and_store_nse_data()
 
 # Retrieve and print stored data (for verification)
-stored_data = r.get("nse:AXISBANK:announcement:equities")
+stored_data = r.get("nse:POCL:announcement:equities")
 if stored_data:
     st.write("Retrieved data from Redis:")
     st.dataframe(stored_data)
